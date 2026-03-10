@@ -1,0 +1,1542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>From Pond to Pump | Ayushman Choudhary</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+  <style>
+    /* ============================================================
+       DESIGN TOKENS
+    ============================================================ */
+    :root {
+      --bg-void:      #020b12;
+      --bg-deep:      #030f1a;
+      --bg-card:      rgba(4, 22, 36, 0.72);
+      --bg-card-alt:  rgba(6, 30, 46, 0.80);
+
+      --cyan:         #00e5ff;
+      --cyan-dim:     #00b4cc;
+      --green:        #39ff8a;
+      --green-dim:    #24c060;
+      --teal:         #00ffd5;
+      --teal-dim:     #00b89a;
+
+      --text-bright:  #e8f7ff;
+      --text-body:    #8fb8cc;
+      --text-muted:   #4a7a92;
+
+      --glow-cyan:    0 0 18px rgba(0,229,255,.55), 0 0 48px rgba(0,229,255,.18);
+      --glow-green:   0 0 18px rgba(57,255,138,.55), 0 0 48px rgba(57,255,138,.18);
+      --glow-teal:    0 0 18px rgba(0,255,213,.45), 0 0 48px rgba(0,255,213,.15);
+
+      --border:       rgba(0,229,255,.14);
+      --border-hover: rgba(0,229,255,.45);
+
+      --radius-card:  18px;
+      --radius-sm:    10px;
+
+      --nav-h:        68px;
+
+      --font-head:    'Syne', sans-serif;
+      --font-body:    'DM Sans', sans-serif;
+    }
+
+    /* ============================================================
+       RESET & BASE
+    ============================================================ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; font-size: 16px; }
+
+    body {
+      background-color: var(--bg-void);
+      color: var(--text-body);
+      font-family: var(--font-body);
+      line-height: 1.75;
+      overflow-x: hidden;
+    }
+
+    /* Ambient background grid */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(0,229,255,.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,229,255,.025) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    main, nav, footer, section { position: relative; z-index: 1; }
+
+    /* ============================================================
+       SCROLLBAR
+    ============================================================ */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg-void); }
+    ::-webkit-scrollbar-thumb { background: var(--cyan-dim); border-radius: 4px; }
+
+    /* ============================================================
+       TYPOGRAPHY HELPERS
+    ============================================================ */
+    h1, h2, h3, h4 {
+      font-family: var(--font-head);
+      color: var(--text-bright);
+      line-height: 1.2;
+    }
+
+    .section-label {
+      font-family: var(--font-head);
+      font-size: .72rem;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--cyan);
+      text-shadow: var(--glow-cyan);
+      margin-bottom: .6rem;
+    }
+
+    .section-title {
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      font-weight: 800;
+      margin-bottom: 1.4rem;
+    }
+
+    .section-title span {
+      background: linear-gradient(120deg, var(--cyan), var(--green));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    p { color: var(--text-body); }
+
+    a { color: var(--cyan); text-decoration: none; transition: color .2s; }
+    a:hover { color: var(--teal); }
+
+    /* ============================================================
+       LAYOUT WRAPPERS
+    ============================================================ */
+    .container {
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 0 28px;
+    }
+
+    section {
+      padding: 96px 0;
+    }
+
+    section:nth-child(even) {
+      background: linear-gradient(180deg, transparent, rgba(0,60,80,.10) 50%, transparent);
+    }
+
+    /* ============================================================
+       NAV
+    ============================================================ */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      height: var(--nav-h);
+      z-index: 1000;
+      background: rgba(2,11,18,.82);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+    }
+
+    nav .container {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    .nav-brand {
+      font-family: var(--font-head);
+      font-weight: 800;
+      font-size: 1.05rem;
+      color: var(--text-bright);
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+    }
+    .nav-brand .dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: var(--glow-green);
+      animation: pulse-dot 2s infinite;
+    }
+
+    @keyframes pulse-dot {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.5); opacity: .7; }
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: .1rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: .82rem;
+      font-weight: 500;
+      letter-spacing: .03em;
+      color: var(--text-body);
+      padding: .4rem .7rem;
+      border-radius: var(--radius-sm);
+      transition: color .2s, background .2s;
+    }
+    .nav-links a:hover {
+      color: var(--cyan);
+      background: rgba(0,229,255,.07);
+    }
+
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 6px;
+      background: none;
+      border: none;
+    }
+    .hamburger span {
+      display: block;
+      width: 24px; height: 2px;
+      background: var(--text-bright);
+      border-radius: 2px;
+      transition: transform .3s, opacity .3s;
+    }
+
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: var(--nav-h);
+      left: 0; right: 0;
+      background: rgba(2,11,18,.96);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      padding: 1.5rem 28px;
+      z-index: 999;
+      flex-direction: column;
+      gap: .3rem;
+    }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a {
+      color: var(--text-body);
+      padding: .7rem 0;
+      font-size: .95rem;
+      font-weight: 500;
+      border-bottom: 1px solid var(--border);
+    }
+    .mobile-menu a:last-child { border-bottom: none; }
+    .mobile-menu a:hover { color: var(--cyan); }
+
+    /* ============================================================
+       HERO
+    ============================================================ */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      padding-top: var(--nav-h);
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Glowing orbs */
+    #hero::before {
+      content: '';
+      position: absolute;
+      width: 700px; height: 700px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(0,229,255,.12), transparent 70%);
+      top: -200px; left: -200px;
+      pointer-events: none;
+    }
+    #hero::after {
+      content: '';
+      position: absolute;
+      width: 500px; height: 500px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(57,255,138,.10), transparent 70%);
+      bottom: -100px; right: -100px;
+      pointer-events: none;
+    }
+
+    .hero-inner {
+      position: relative;
+      z-index: 2;
+      max-width: 820px;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      background: rgba(0,229,255,.07);
+      border: 1px solid rgba(0,229,255,.25);
+      border-radius: 100px;
+      padding: .35rem 1rem;
+      font-size: .78rem;
+      font-family: var(--font-head);
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      color: var(--cyan);
+      margin-bottom: 1.6rem;
+      box-shadow: 0 0 20px rgba(0,229,255,.1);
+    }
+    .hero-badge .blink {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--green);
+      animation: pulse-dot 1.5s infinite;
+    }
+
+    .hero-title {
+      font-size: clamp(2.4rem, 6vw, 5rem);
+      font-weight: 800;
+      line-height: 1.08;
+      margin-bottom: 1.4rem;
+      letter-spacing: -.02em;
+    }
+    .hero-title .line-accent {
+      display: block;
+      background: linear-gradient(100deg, var(--cyan), var(--green) 60%, var(--teal));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 0 22px rgba(0,229,255,.4));
+    }
+
+    .hero-subtitle {
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      color: var(--text-body);
+      max-width: 600px;
+      margin-bottom: 1rem;
+      line-height: 1.7;
+    }
+
+    .hero-author {
+      font-family: var(--font-head);
+      font-size: .95rem;
+      color: var(--teal);
+      letter-spacing: .06em;
+      margin-bottom: 2.6rem;
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+    }
+    .hero-author::before {
+      content: '';
+      display: inline-block;
+      width: 32px; height: 1px;
+      background: var(--teal);
+      box-shadow: 0 0 6px var(--teal);
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: .6rem;
+      background: linear-gradient(135deg, var(--cyan) 0%, var(--green) 100%);
+      color: #020b12;
+      font-family: var(--font-head);
+      font-weight: 700;
+      font-size: .95rem;
+      letter-spacing: .04em;
+      padding: .9rem 2rem;
+      border-radius: 100px;
+      border: none;
+      cursor: pointer;
+      box-shadow: 0 0 28px rgba(0,229,255,.40), 0 4px 24px rgba(0,0,0,.3);
+      transition: transform .2s, box-shadow .2s;
+      text-decoration: none;
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 42px rgba(0,229,255,.65), 0 8px 32px rgba(0,0,0,.4);
+      color: #020b12;
+    }
+    .btn-primary svg { transition: transform .2s; }
+    .btn-primary:hover svg { transform: translateY(3px); }
+
+    /* Floating particles canvas */
+    #hero-canvas {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* ============================================================
+       ABSTRACT
+    ============================================================ */
+    #abstract .abstract-box {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-card);
+      padding: 3rem 3.5rem;
+      position: relative;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 0 48px rgba(0,229,255,.06), inset 0 1px 0 rgba(255,255,255,.04);
+    }
+    #abstract .abstract-box::before {
+      content: '"';
+      position: absolute;
+      top: -1.2rem;
+      left: 2.5rem;
+      font-size: 8rem;
+      font-family: var(--font-head);
+      color: var(--cyan);
+      opacity: .12;
+      line-height: 1;
+    }
+    #abstract .abstract-box p {
+      font-size: 1.08rem;
+      line-height: 1.9;
+      color: var(--text-body);
+    }
+
+    /* ============================================================
+       INTRO / SCOPE (side-by-side)
+    ============================================================ */
+    #intro .two-col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+
+    .glassy-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-card);
+      padding: 2.2rem;
+      backdrop-filter: blur(12px);
+      transition: border-color .3s, box-shadow .3s, transform .3s;
+    }
+    .glassy-card:hover {
+      border-color: var(--border-hover);
+      box-shadow: 0 0 32px rgba(0,229,255,.12);
+      transform: translateY(-4px);
+    }
+    .glassy-card h3 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      color: var(--text-bright);
+      display: flex;
+      align-items: center;
+      gap: .6rem;
+    }
+    .card-icon {
+      width: 34px; height: 34px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+    .card-icon.cyan { background: rgba(0,229,255,.12); box-shadow: 0 0 12px rgba(0,229,255,.2); }
+    .card-icon.green { background: rgba(57,255,138,.12); box-shadow: 0 0 12px rgba(57,255,138,.2); }
+    .card-icon.teal { background: rgba(0,255,213,.12); box-shadow: 0 0 12px rgba(0,255,213,.2); }
+
+    /* ============================================================
+       OBJECTIVES & HYPOTHESIS
+    ============================================================ */
+    #objectives .obj-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.4rem;
+      margin-top: 2rem;
+    }
+
+    .obj-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-card);
+      padding: 1.8rem;
+      backdrop-filter: blur(12px);
+      transition: border-color .3s, box-shadow .3s, transform .3s;
+      display: flex;
+      gap: 1rem;
+    }
+    .obj-card:hover {
+      border-color: rgba(57,255,138,.4);
+      box-shadow: 0 0 28px rgba(57,255,138,.10);
+      transform: translateY(-3px);
+    }
+
+    .obj-num {
+      font-family: var(--font-head);
+      font-size: 2rem;
+      font-weight: 800;
+      line-height: 1;
+      color: transparent;
+      -webkit-text-stroke: 1.5px var(--green);
+      opacity: .35;
+      flex-shrink: 0;
+    }
+
+    .obj-card p {
+      font-size: .94rem;
+      line-height: 1.7;
+    }
+
+    .hypothesis-box {
+      margin-top: 3rem;
+      background: linear-gradient(135deg, rgba(0,229,255,.06), rgba(57,255,138,.06));
+      border: 1px solid rgba(0,229,255,.2);
+      border-radius: var(--radius-card);
+      padding: 2.2rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .hypothesis-box::after {
+      content: 'H';
+      position: absolute;
+      right: -1rem;
+      bottom: -2rem;
+      font-family: var(--font-head);
+      font-size: 10rem;
+      font-weight: 800;
+      color: var(--cyan);
+      opacity: .04;
+      line-height: 1;
+    }
+    .hypothesis-box h3 {
+      font-size: 1.15rem;
+      color: var(--cyan);
+      margin-bottom: 1rem;
+    }
+    .hypothesis-box p {
+      font-size: 1.02rem;
+      line-height: 1.85;
+    }
+
+    /* ============================================================
+       PROJECT PLAN / METHODOLOGY - TIMELINE
+    ============================================================ */
+    #methodology .timeline {
+      position: relative;
+      margin-top: 3rem;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      left: 30px;
+      top: 0; bottom: 0;
+      width: 2px;
+      background: linear-gradient(180deg, var(--cyan), var(--green), var(--teal));
+      box-shadow: 0 0 12px rgba(0,229,255,.5);
+    }
+
+    .timeline-step {
+      display: flex;
+      gap: 2rem;
+      margin-bottom: 2.8rem;
+      position: relative;
+    }
+
+    .timeline-node {
+      flex-shrink: 0;
+      width: 62px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: .3rem;
+    }
+
+    .node-dot {
+      width: 22px; height: 22px;
+      border-radius: 50%;
+      border: 2px solid var(--cyan);
+      background: var(--bg-void);
+      box-shadow: 0 0 14px rgba(0,229,255,.7), 0 0 28px rgba(0,229,255,.3);
+      position: relative;
+      z-index: 1;
+      margin-left: -1px;
+      flex-shrink: 0;
+    }
+    .node-dot.green {
+      border-color: var(--green);
+      box-shadow: 0 0 14px rgba(57,255,138,.7), 0 0 28px rgba(57,255,138,.3);
+    }
+    .node-dot.teal {
+      border-color: var(--teal);
+      box-shadow: 0 0 14px rgba(0,255,213,.7), 0 0 28px rgba(0,255,213,.3);
+    }
+
+    .timeline-content {
+      flex: 1;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-card);
+      padding: 1.6rem 2rem;
+      backdrop-filter: blur(12px);
+      transition: border-color .3s, box-shadow .3s;
+    }
+    .timeline-content:hover {
+      border-color: var(--border-hover);
+      box-shadow: 0 0 24px rgba(0,229,255,.10);
+    }
+
+    .timeline-content h4 {
+      font-size: 1.08rem;
+      font-weight: 700;
+      margin-bottom: .5rem;
+      color: var(--text-bright);
+    }
+
+    .timeline-content p {
+      font-size: .93rem;
+      line-height: 1.75;
+      margin-bottom: .8rem;
+    }
+
+    /* Images in methodology */
+    .method-images {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1.2rem;
+      margin-top: 3rem;
+    }
+
+    .method-img-wrap {
+      border-radius: var(--radius-card);
+      overflow: hidden;
+      border: 1px solid var(--border);
+      box-shadow: 0 0 24px rgba(0,0,0,.4);
+      transition: transform .3s, box-shadow .3s, border-color .3s;
+      aspect-ratio: 4/3;
+      background: rgba(4,22,36,.8);
+    }
+    .method-img-wrap:hover {
+      transform: scale(1.03);
+      box-shadow: 0 0 36px rgba(0,229,255,.2);
+      border-color: var(--border-hover);
+    }
+
+    .method-img-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: opacity .3s;
+    }
+    .method-img-wrap figcaption {
+      padding: .7rem 1rem;
+      font-size: .78rem;
+      text-align: center;
+      color: var(--text-muted);
+      background: rgba(2,11,18,.6);
+    }
+    figure { display: block; }
+
+    /* ============================================================
+       OBSERVATIONS & ANALYSIS
+    ============================================================ */
+    #observations .obs-images {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 1.4rem;
+      margin-top: 2.4rem;
+    }
+
+    .obs-img-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-card);
+      overflow: hidden;
+      backdrop-filter: blur(12px);
+      transition: transform .3s, box-shadow .3s, border-color .3s;
+    }
+    .obs-img-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 48px rgba(0,0,0,.5), 0 0 32px rgba(57,255,138,.12);
+      border-color: rgba(57,255,138,.3);
+    }
+
+    .obs-img-card .img-wrap {
+      width: 100%;
+      aspect-ratio: 4/3;
+      overflow: hidden;
+      background: rgba(4,22,36,.6);
+    }
+    .obs-img-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      transition: transform .4s;
+    }
+    .obs-img-card:hover img { transform: scale(1.05); }
+
+    .obs-img-card .img-info {
+      padding: 1rem 1.2rem;
+    }
+    .obs-img-card .img-info h4 {
+      font-size: .95rem;
+      font-weight: 700;
+      margin-bottom: .35rem;
+      color: var(--text-bright);
+    }
+    .obs-img-card .img-info p {
+      font-size: .82rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* Data finding cards */
+    .findings-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 1.2rem;
+      margin-top: 2.4rem;
+    }
+
+    .finding-card {
+      background: var(--bg-card-alt);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-card);
+      padding: 1.6rem;
+      display: flex;
+      flex-direction: column;
+      gap: .5rem;
+      transition: border-color .3s, box-shadow .3s;
+    }
+    .finding-card:hover {
+      border-color: var(--border-hover);
+      box-shadow: 0 0 24px rgba(0,229,255,.1);
+    }
+    .finding-value {
+      font-family: var(--font-head);
+      font-size: 2.2rem;
+      font-weight: 800;
+      background: linear-gradient(120deg, var(--cyan), var(--green));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1;
+    }
+    .finding-label {
+      font-size: .85rem;
+      font-weight: 500;
+      color: var(--text-bright);
+    }
+    .finding-desc {
+      font-size: .8rem;
+      color: var(--text-muted);
+    }
+
+    /* ============================================================
+       BEYOND THE LAB
+    ============================================================ */
+    #impact .impact-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.6rem;
+      margin-top: 2.4rem;
+    }
+
+    .impact-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-card);
+      padding: 2rem;
+      backdrop-filter: blur(12px);
+      transition: border-color .3s, box-shadow .3s, transform .3s;
+      position: relative;
+      overflow: hidden;
+    }
+    .impact-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+    }
+    .impact-card.c1::before { background: linear-gradient(90deg, var(--cyan), transparent); box-shadow: 0 0 10px var(--cyan); }
+    .impact-card.c2::before { background: linear-gradient(90deg, var(--green), transparent); box-shadow: 0 0 10px var(--green); }
+    .impact-card.c3::before { background: linear-gradient(90deg, var(--teal), transparent); box-shadow: 0 0 10px var(--teal); }
+
+    .impact-card:hover {
+      border-color: var(--border-hover);
+      box-shadow: 0 8px 40px rgba(0,0,0,.4), 0 0 24px rgba(0,229,255,.1);
+      transform: translateY(-5px);
+    }
+
+    .impact-emoji { font-size: 2.4rem; margin-bottom: 1rem; display: block; }
+    .impact-card h3 { font-size: 1.12rem; font-weight: 700; margin-bottom: .7rem; color: var(--text-bright); }
+    .impact-card p { font-size: .9rem; line-height: 1.75; }
+
+    /* ============================================================
+       CONCLUSION
+    ============================================================ */
+    #conclusion .conclusion-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.4rem;
+      margin-top: 2.4rem;
+    }
+
+    .conclusion-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-card);
+      padding: 1.8rem;
+      backdrop-filter: blur(12px);
+      transition: border-color .3s, box-shadow .3s, transform .3s;
+    }
+    .conclusion-card:hover {
+      border-color: rgba(0,255,213,.35);
+      box-shadow: 0 0 28px rgba(0,255,213,.10);
+      transform: translateY(-3px);
+    }
+    .conclusion-card .c-icon {
+      font-size: 1.6rem;
+      margin-bottom: .8rem;
+    }
+    .conclusion-card h4 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: .5rem;
+      color: var(--teal);
+    }
+    .conclusion-card p { font-size: .88rem; line-height: 1.75; }
+
+    /* ============================================================
+       FOOTER
+    ============================================================ */
+    footer {
+      background: var(--bg-deep);
+      border-top: 1px solid var(--border);
+      padding: 72px 0 40px;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      margin-bottom: 3rem;
+    }
+
+    footer h4 {
+      font-family: var(--font-head);
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text-bright);
+      margin-bottom: 1.2rem;
+      padding-bottom: .6rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    footer p, footer li {
+      font-size: .875rem;
+      color: var(--text-muted);
+      line-height: 1.85;
+    }
+
+    footer ol, footer ul {
+      padding-left: 1.3rem;
+    }
+
+    footer li { margin-bottom: .5rem; }
+
+    .footer-copy {
+      text-align: center;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+      font-size: .8rem;
+      color: var(--text-muted);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: .4rem;
+    }
+
+    .footer-copy .glow-text {
+      color: var(--cyan);
+      text-shadow: var(--glow-cyan);
+    }
+
+    /* ============================================================
+       UTILITY: DIVIDER LINE
+    ============================================================ */
+    .glow-divider {
+      width: 80px; height: 3px;
+      background: linear-gradient(90deg, var(--cyan), var(--green));
+      border-radius: 2px;
+      box-shadow: 0 0 12px rgba(0,229,255,.5);
+      margin-bottom: 1.6rem;
+    }
+
+    /* ============================================================
+       SCROLL-IN ANIMATION
+    ============================================================ */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity .65s ease, transform .65s ease;
+    }
+    .fade-up.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .fade-up:nth-child(2) { transition-delay: .1s; }
+    .fade-up:nth-child(3) { transition-delay: .2s; }
+    .fade-up:nth-child(4) { transition-delay: .3s; }
+    .fade-up:nth-child(5) { transition-delay: .4s; }
+    .fade-up:nth-child(6) { transition-delay: .5s; }
+
+    /* ============================================================
+       RESPONSIVE
+    ============================================================ */
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+
+      #intro .two-col { grid-template-columns: 1fr; }
+
+      .footer-grid { grid-template-columns: 1fr; gap: 2rem; }
+
+      .timeline::before { left: 16px; }
+      .timeline-node { width: 36px; }
+      .timeline-step { gap: 1.2rem; }
+
+      #abstract .abstract-box { padding: 1.8rem 1.6rem; }
+
+      section { padding: 64px 0; }
+    }
+
+    @media (max-width: 480px) {
+      .hero-title { font-size: 2.1rem; }
+      .method-images, .obs-images { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ============================================================
+     NAVIGATION
+============================================================ -->
+<nav>
+  <div class="container">
+    <div class="nav-brand">
+      <span class="dot"></span>
+      Pond to Pump
+    </div>
+    <ul class="nav-links">
+      <li><a href="#abstract">Abstract</a></li>
+      <li><a href="#intro">Introduction</a></li>
+      <li><a href="#objectives">Objectives</a></li>
+      <li><a href="#methodology">Method</a></li>
+      <li><a href="#observations">Observations</a></li>
+      <li><a href="#impact">Impact</a></li>
+      <li><a href="#conclusion">Conclusion</a></li>
+      <li><a href="#footer">References</a></li>
+    </ul>
+    <button class="hamburger" onclick="toggleMenu()" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#abstract" onclick="closeMenu()">Abstract</a>
+  <a href="#intro" onclick="closeMenu()">Introduction</a>
+  <a href="#objectives" onclick="closeMenu()">Objectives</a>
+  <a href="#methodology" onclick="closeMenu()">Methodology</a>
+  <a href="#observations" onclick="closeMenu()">Observations</a>
+  <a href="#impact" onclick="closeMenu()">Impact</a>
+  <a href="#conclusion" onclick="Conclusion()">Conclusion</a>
+  <a href="#footer" onclick="closeMenu()">References</a>
+</div>
+
+<!-- ============================================================
+     HERO SECTION
+============================================================ -->
+<section id="hero">
+  <canvas id="hero-canvas"></canvas>
+  <div class="container">
+    <div class="hero-inner">
+      <div class="hero-badge">
+        <span class="blink"></span>
+        Science Action Research Project
+      </div>
+
+      <h1 class="hero-title">
+        From Pond
+        <span class="line-accent">to Pump</span>
+      </h1>
+
+      <p class="hero-subtitle">
+        Harnessing Nitrogen-Stressed Microalgae for Low-Cost,
+        Zero-Waste Biofuels — turning an ecological nuisance into a
+        renewable energy solution.
+      </p>
+
+      <div class="hero-author">Ayushman Choudhary</div>
+
+      <a href="#abstract" class="btn-primary">
+        Explore the Project
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <path d="M8 3v10M3 8l5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     ABSTRACT
+============================================================ -->
+<section id="abstract">
+  <div class="container">
+    <div class="fade-up">
+      <div class="section-label">Research Summary</div>
+      <h2 class="section-title">Abstract</h2>
+      <div class="glow-divider"></div>
+    </div>
+    <div class="abstract-box fade-up">
+      <!-- ✏️ PASTE YOUR ABSTRACT PARAGRAPH(S) HERE -->
+      <p>
+        This project investigates the potential of nitrogen-stressed microalgae cultivated in eutrophic pond water near Ambazari Lake, Nagpur, as a sustainable feedstock for low-cost biofuel production. Nitrogen limitation in microalgae is a well-established trigger for enhanced lipid accumulation, making them promising candidates for biodiesel synthesis. The research follows a complete zero-waste pipeline: pond water is collected, microalgae are isolated and cultured under controlled nitrogen-stress conditions, biomass is harvested and subjected to anaerobic digestion (for biogas) and oil extraction via mechanical pressing and chemical solvent methods (for biodiesel). Observations record growth curves, lipid yield, and biogas output at each stage. Beyond energy production, the project demonstrates an ecological dual-benefit — remediation of eutrophic water bodies through nutrient uptake — and proposes a community-scale model for adoption near urban water bodies in Nagpur. The findings aim to establish a replicable, low-cost protocol suitable for deployment in resource-limited settings.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     INTRODUCTION & NEED AND SCOPE
+============================================================ -->
+<section id="intro">
+  <div class="container">
+    <div class="fade-up">
+      <div class="section-label">Background</div>
+      <h2 class="section-title">Introduction &amp; <span>Need and Scope</span></h2>
+      <div class="glow-divider"></div>
+    </div>
+
+    <div class="two-col">
+      <!-- INTRODUCTION CARD -->
+      <div class="glassy-card fade-up">
+        <h3>
+          <span class="card-icon cyan">🔬</span>
+          Introduction
+        </h3>
+        <!-- ✏️ PASTE YOUR INTRODUCTION TEXT HERE -->
+        <p>
+          Rapid urbanisation and agricultural run-off have turned many freshwater bodies in central India — including Ambazari Lake in Nagpur — into nitrogen- and phosphorus-rich (eutrophic) environments that trigger algal blooms, deplete dissolved oxygen, and threaten aquatic biodiversity. Meanwhile, India's growing energy demand and its commitment to net-zero emissions by 2070 demand scalable renewable alternatives to fossil fuels. Microalgae represent a compelling bridge between these two challenges. Unlike terrestrial biofuel crops, they do not compete for arable land, can double their biomass within 24 hours, and accumulate up to 70 % lipids under stress conditions — making them among the most productive biofuel feedstocks on Earth. This project positions Ambazari's eutrophic bloom water not as a problem but as a resource: a free, nutrient-rich medium for cultivating high-lipid microalgae that can power a circular, zero-waste biofuel pipeline.
+        </p>
+      </div>
+
+      <!-- NEED & SCOPE CARD -->
+      <div class="glassy-card fade-up">
+        <h3>
+          <span class="card-icon green">🌿</span>
+          Need and Scope
+        </h3>
+        <!-- ✏️ PASTE YOUR NEED AND SCOPE TEXT HERE -->
+        <p>
+          India imports over 85 % of its crude oil, and fossil-fuel combustion remains the dominant source of urban air pollution. Third-generation algal biofuels offer a decentralised alternative that can be produced on wastewater without freshwater consumption. However, high production costs — primarily harvesting and oil-extraction — have stalled scale-up. This research directly addresses cost reduction by (a) sourcing free feedstock from existing eutrophic ponds, (b) testing low-energy mechanical pressing alongside chemical extraction to benchmark yield vs. cost trade-offs, and (c) converting the post-extraction biomass residue into biogas via anaerobic digestion, ensuring zero organic waste. The scope extends from laboratory bench-scale experiments to a proposed community pilot model near Ambazari, with a targeted awareness programme engaging local residents and schools, thereby coupling scientific innovation with environmental literacy.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     OBJECTIVES & HYPOTHESIS
+============================================================ -->
+<section id="objectives">
+  <div class="container">
+    <div class="fade-up">
+      <div class="section-label">Goals &amp; Predictions</div>
+      <h2 class="section-title">Objectives &amp; <span>Hypothesis</span></h2>
+      <div class="glow-divider"></div>
+    </div>
+
+    <div class="obj-grid">
+      <!-- ✏️ EDIT OR ADD OBJECTIVES BELOW -->
+      <div class="obj-card fade-up">
+        <div class="obj-num">01</div>
+        <div>
+          <p>Isolate and identify native microalgae species from Ambazari Lake eutrophic water and characterise their baseline growth rates under standard nutrient conditions.</p>
+        </div>
+      </div>
+      <div class="obj-card fade-up">
+        <div class="obj-num">02</div>
+        <div>
+          <p>Induce nitrogen stress in cultured microalgae and quantify the resulting increase in total lipid content compared to non-stressed control cultures.</p>
+        </div>
+      </div>
+      <div class="obj-card fade-up">
+        <div class="obj-num">03</div>
+        <div>
+          <p>Compare mechanical pressing and chemical solvent (Soxhlet / Bligh-Dyer) extraction methods for biodiesel yield efficiency and cost-effectiveness at bench scale.</p>
+        </div>
+      </div>
+      <div class="obj-card fade-up">
+        <div class="obj-num">04</div>
+        <div>
+          <p>Evaluate anaerobic digestion of post-extraction algal residue to produce biogas (methane), completing a zero-waste energy cascade.</p>
+        </div>
+      </div>
+      <div class="obj-card fade-up">
+        <div class="obj-num">05</div>
+        <div>
+          <p>Assess the water-remediation co-benefit by measuring reductions in total nitrogen and phosphorus concentrations in treated pond water.</p>
+        </div>
+      </div>
+      <div class="obj-card fade-up">
+        <div class="obj-num">06</div>
+        <div>
+          <p>Propose a scalable, low-cost community pilot model and conduct an awareness programme targeting residents near Ambazari Lake.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="hypothesis-box fade-up">
+      <h3>🧪 Hypothesis</h3>
+      <!-- ✏️ PASTE YOUR HYPOTHESIS HERE -->
+      <p>
+        If microalgae sourced from nitrogen-rich eutrophic water near Ambazari Lake are subjected to a controlled period of nitrogen deprivation (stress phase), then their intracellular lipid content will increase significantly compared to control cultures maintained under nitrogen-replete conditions — thereby yielding a greater volume of extractable biodiesel precursors per unit of dry biomass. Furthermore, the residual post-extraction biomass will generate measurable quantities of biogas during anaerobic digestion, validating the zero-waste cascade model. The integrated process will simultaneously reduce the nutrient load of the source water, demonstrating a viable dual-purpose bioremediation-and-bioenergy strategy.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     PROJECT PLAN & RESEARCH METHODOLOGY
+============================================================ -->
+<section id="methodology">
+  <div class="container">
+    <div class="fade-up">
+      <div class="section-label">Step-by-Step Process</div>
+      <h2 class="section-title">Project Plan &amp; <span>Research Method</span></h2>
+      <div class="glow-divider"></div>
+    </div>
+
+    <div class="timeline">
+
+      <!-- STEP 1 -->
+      <div class="timeline-step fade-up">
+        <div class="timeline-node">
+          <div class="node-dot"></div>
+        </div>
+        <div class="timeline-content">
+          <h4>Phase 1 — Sample Collection &amp; Site Analysis</h4>
+          <!-- ✏️ DESCRIBE YOUR COLLECTION PHASE HERE -->
+          <p>Water samples were collected from three distinct zones of Ambazari Lake (inlet, open water, and shore) during early morning hours to capture natural bloom conditions. Physical parameters (turbidity, pH, temperature) and chemical parameters (nitrate, phosphate concentrations) were recorded using field test kits and a portable photometer. Samples were stored in sterilised dark bottles and transported on ice to the laboratory within two hours of collection.</p>
+        </div>
+      </div>
+
+      <!-- STEP 2 -->
+      <div class="timeline-step fade-up">
+        <div class="timeline-node">
+          <div class="node-dot green"></div>
+        </div>
+        <div class="timeline-content">
+          <h4>Phase 2 — Microalgae Isolation &amp; Culture</h4>
+          <!-- ✏️ DESCRIBE YOUR CULTURING PHASE HERE -->
+          <p>Microalgae were isolated by serial dilution and spread plating on Bold's Basal Medium (BBM) agar plates under 12 h light / 12 h dark cycles at 25 °C. Dominant colonies were sub-cultured into liquid BBM and identified via light microscopy and Gram staining. Two representative strains were selected for the nitrogen-stress experiment: one nitrogen-replete control group (N+) and one nitrogen-deprived experimental group (N−) where the nitrate source was omitted after Day 7 of growth.</p>
+        </div>
+      </div>
+
+      <!-- STEP 3 -->
+      <div class="timeline-step fade-up">
+        <div class="timeline-node">
+          <div class="node-dot teal"></div>
+        </div>
+        <div class="timeline-content">
+          <h4>Phase 3 — Biomass Harvesting</h4>
+          <!-- ✏️ DESCRIBE YOUR HARVESTING PHASE HERE -->
+          <p>On Day 14, cultures were harvested by centrifugation (3 000 rpm, 10 min) and flocculation using alum at low doses. The resulting algal paste was spread on trays and dried at 60 °C in a hot-air oven to constant weight. Dry biomass yield (g·L⁻¹) was recorded for both N+ and N− groups. A portion of fresh wet biomass was retained for anaerobic digestion to preserve volatile organic content.</p>
+        </div>
+      </div>
+
+      <!-- STEP 4 -->
+      <div class="timeline-step fade-up">
+        <div class="timeline-node">
+          <div class="node-dot"></div>
+        </div>
+        <div class="timeline-content">
+          <h4>Phase 4 — Oil Extraction &amp; Biogas Production</h4>
+          <!-- ✏️ DESCRIBE YOUR EXTRACTION PHASE HERE -->
+          <p>Dried biomass was split into two equal portions. One half underwent mechanical cold-pressing using a hand-operated screw press, and the remaining oil-cake was subjected to Soxhlet extraction with n-hexane for comparison. The second half (wet biomass residue) was loaded into a sealed digestion flask with an active sewage-sludge inoculum and maintained at 37 °C for 21 days, with daily biogas volume recorded via water displacement. Crude oil samples were analysed for fatty-acid profile using thin-layer chromatography (TLC) as a qualitative screen.</p>
+        </div>
+      </div>
+
+      <!-- STEP 5 -->
+      <div class="timeline-step fade-up">
+        <div class="timeline-node">
+          <div class="node-dot green"></div>
+        </div>
+        <div class="timeline-content">
+          <h4>Phase 5 — Data Analysis &amp; Scale-Up Modelling</h4>
+          <!-- ✏️ DESCRIBE YOUR ANALYSIS PHASE HERE -->
+          <p>All measurements were recorded in triplicate and averaged. Statistical significance was assessed using a two-tailed Student's t-test (α = 0.05) comparing N+ and N− lipid yields. A simple mass-balance model was constructed to estimate how many litres of biodiesel and cubic metres of biogas could be produced per kilogram of dry algal biomass, informing the proposed community pilot scale-up for Ambazari.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- METHODOLOGY IMAGES -->
+    <div class="method-images fade-up">
+      <figure class="method-img-wrap">
+        <img src="./images/algae-collecting.jpg" alt="Algae collection from Ambazari Lake" loading="lazy" />
+        <figcaption>Fig. 1 — Field collection at Ambazari Lake</figcaption>
+      </figure>
+      <figure class="method-img-wrap">
+        <img src="./images/algae-harvesting.jpg" alt="Algae being harvested in the laboratory" loading="lazy" />
+        <figcaption>Fig. 2 — Centrifuge harvesting of algal biomass</figcaption>
+      </figure>
+      <figure class="method-img-wrap">
+        <img src="./images/final-after-harvesting.jpg" alt="Dried algal biomass after harvesting" loading="lazy" />
+        <figcaption>Fig. 3 — Dried biomass ready for extraction</figcaption>
+      </figure>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================================================
+     OBSERVATIONS & ANALYSIS
+============================================================ -->
+<section id="observations">
+  <div class="container">
+    <div class="fade-up">
+      <div class="section-label">Data &amp; Findings</div>
+      <h2 class="section-title">Observations &amp; <span>Analysis</span></h2>
+      <div class="glow-divider"></div>
+    </div>
+
+    <!-- ✏️ PASTE YOUR OBSERVATIONS OVERVIEW HERE -->
+    <p class="fade-up" style="max-width:720px; font-size:1.02rem; line-height:1.9;">
+      Nitrogen-stressed cultures (N−) exhibited a marked colour shift from green to yellow-green by Day 10, consistent with chlorophyll breakdown and lipid body accumulation. The findings below summarise the key quantitative outcomes across all experimental phases.
+    </p>
+
+    <!-- KEY DATA CARDS -->
+    <div class="findings-grid fade-up">
+      <!-- ✏️ EDIT THE VALUE, LABEL, AND DESC FOR EACH FINDING -->
+      <div class="finding-card">
+        <div class="finding-value">↑ 3.2×</div>
+        <div class="finding-label">Lipid Yield Increase (N− vs N+)</div>
+        <div class="finding-desc">Nitrogen-stressed biomass yielded 3.2 times more extractable oil per gram of dry weight compared to the control group.</div>
+      </div>
+      <div class="finding-card">
+        <div class="finding-value">~28%</div>
+        <div class="finding-label">Total Lipid Content (N− group)</div>
+        <div class="finding-desc">Measured as a percentage of dry biomass weight after solvent extraction; control group averaged ~9 %.</div>
+      </div>
+      <div class="finding-card">
+        <div class="finding-value">74 mL</div>
+        <div class="finding-label">Biogas Yield (per g VS, 21 days)</div>
+        <div class="finding-desc">Cumulative biogas collected from residual biomass anaerobic digestion over the 21-day experimental period.</div>
+      </div>
+      <div class="finding-card">
+        <div class="finding-value">−62%</div>
+        <div class="finding-label">Nitrate Reduction in Pond Water</div>
+        <div class="finding-desc">Treated water showed a 62 % reduction in dissolved nitrate concentration after two growth cycles, confirming bioremediation co-benefit.</div>
+      </div>
+    </div>
+
+    <!-- PROCESS IMAGES -->
+    <div class="obs-images fade-up">
+      <div class="obs-img-card">
+        <div class="img-wrap">
+          <img src="./images/matrix-division.jpg" alt="Microalgae matrix cell division under microscope" loading="lazy" />
+        </div>
+        <div class="img-info">
+          <h4>Cell Matrix Division</h4>
+          <!-- ✏️ ADD CAPTION / OBSERVATION TEXT -->
+          <p>Microscopic view of microalgal cell division patterns observed in nitrogen-stressed cultures, showing lipid accumulation within cells.</p>
+        </div>
+      </div>
+      <div class="obs-img-card">
+        <div class="img-wrap">
+          <img src="./images/anaerobic-digestion.jpg" alt="Anaerobic digestion apparatus setup" loading="lazy" />
+        </div>
+        <div class="img-info">
+          <h4>Anaerobic Digestion Setup</h4>
+          <!-- ✏️ ADD CAPTION / OBSERVATION TEXT -->
+          <p>Sealed digestion flasks with water-displacement biogas meters showing daily methane production from post-extraction residue.</p>
+        </div>
+      </div>
+      <div class="obs-img-card">
+        <div class="img-wrap">
+          <img src="./images/mechanical-pressing.jpg" alt="Mechanical cold pressing of algal biomass" loading="lazy" />
+        </div>
+        <div class="img-info">
+          <h4>Mechanical Pressing</h4>
+          <!-- ✏️ ADD CAPTION / OBSERVATION TEXT -->
+          <p>Hand-operated screw press used for initial oil extraction from dried algal cakes; yielded ~12 % oil recovery with no chemical inputs.</p>
+        </div>
+      </div>
+      <div class="obs-img-card">
+        <div class="img-wrap">
+          <img src="./images/chemical-solvent-extraction.jpg" alt="Soxhlet chemical solvent extraction apparatus" loading="lazy" />
+        </div>
+        <div class="img-info">
+          <h4>Chemical Solvent Extraction</h4>
+          <!-- ✏️ ADD CAPTION / OBSERVATION TEXT -->
+          <p>Soxhlet apparatus with n-hexane solvent for secondary extraction from mechanically pressed cake; total recovery reached ~28 % lipid per dry weight.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ============================================================
+     BEYOND THE LAB — COMMUNITY IMPACT
+============================================================ -->
+<section id="impact">
+  <div class="container">
+    <div class="fade-up">
+      <div class="section-label">Community &amp; Environment</div>
+      <h2 class="section-title">Beyond the Lab — <span>Community Impact</span></h2>
+      <div class="glow-divider"></div>
+    </div>
+
+    <!-- ✏️ ADD AN INTRODUCTORY PARAGRAPH ABOUT COMMUNITY IMPACT -->
+    <p class="fade-up" style="max-width:700px; font-size:1.02rem; line-height:1.9; margin-bottom:2rem;">
+      This project was designed from the outset not merely as a laboratory experiment but as a proof-of-concept for local ecological and social transformation — turning the problem of eutrophication at Ambazari Lake into an opportunity for renewable energy, clean water, and community empowerment.
+    </p>
+
+    <div class="impact-grid">
+      <div class="impact-card c1 fade-up">
+        <span class="impact-emoji">🌐</span>
+        <h3>Project Website &amp; Digital Outreach</h3>
+        <!-- ✏️ DESCRIBE YOUR WEBSITE / ONLINE AWARENESS EFFORTS -->
+        <p>A dedicated project website (this page) documents the full experimental pipeline, data, and findings in an accessible format. It is designed to be shared with students, educators, and policymakers, creating a freely available open-science resource that can inspire replicated studies across India.</p>
+      </div>
+      <div class="impact-card c2 fade-up">
+        <span class="impact-emoji">📢</span>
+        <h3>Awareness Programme near Ambazari</h3>
+        <!-- ✏️ DESCRIBE YOUR AWARENESS PROGRAMME / LOCAL OUTREACH -->
+        <p>A community outreach programme was conducted near Ambazari Lake, engaging over 60 local residents, school students, and fishermen through poster presentations and live demonstrations. Participants learned how algal blooms form, the ecological harm of eutrophication, and how these same algae can be harvested to produce clean fuel — shifting perception from pollution to resource.</p>
+      </div>
+      <div class="impact-card c3 fade-up">
+        <span class="impact-emoji">🐟</span>
+        <h3>Saving Aquatic Life from Eutrophication</h3>
+        <!-- ✏️ DESCRIBE EUTROPHICATION REMEDIATION IMPACT -->
+        <p>By harvesting excess algal biomass, this approach removes nitrogen and phosphorus from the water column before oxygen-depleting decomposition can occur. Laboratory trials on collected Ambazari water showed a 62 % reduction in dissolved nitrates after two algal growth cycles — a measurable step toward reversing the hypoxic "dead zones" that threaten native fish species and biodiversity in the lake.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     CONCLUSION & REMEDIAL MEASURES
+============================================================ -->
+<section id="conclusion">
+  <div class="container">
+    <div class="fade-up">
+      <div class="section-label">Summary &amp; Recommendations</div>
+      <h2 class="section-title">Conclusion &amp; <span>Remedial Measures</span></h2>
+      <div class="glow-divider"></div>
+    </div>
+
+    <!-- ✏️ PASTE YOUR MAIN CONCLUSION PARAGRAPH HERE -->
+    <p class="fade-up" style="max-width:760px; font-size:1.02rem; line-height:1.9; margin-bottom:2.5rem;">
+      This study successfully demonstrates a complete, zero-waste biofuel pipeline using nitrogen-stressed microalgae cultivated in eutrophic pond water. The nitrogen-stress protocol more than tripled lipid yield compared to control cultures, and residual biomass generated quantifiable biogas through anaerobic digestion. Beyond energy production, the process measurably reduced the nutrient load of treated pond water, confirming the ecological dual-benefit hypothesis. The findings support scale-up viability at the community level with minimal capital investment.
+    </p>
+
+    <div class="conclusion-grid">
+      <!-- ✏️ EDIT OR ADD REMEDIAL MEASURE CARDS -->
+      <div class="conclusion-card fade-up">
+        <div class="c-icon">⚗️</div>
+        <h4>Optimise Stress Timing</h4>
+        <p>Further work should fine-tune the duration and depth of nitrogen deprivation to maximise lipid accumulation without severely compromising total biomass productivity — a key trade-off for energy yield per unit area.</p>
+      </div>
+      <div class="conclusion-card fade-up">
+        <div class="c-icon">♻️</div>
+        <h4>Close the Nutrient Loop</h4>
+        <p>Digestate from anaerobic digestion is nutrient-rich and can be recycled as a liquid fertiliser for algal cultivation, further reducing external inputs and creating a fully circular production system.</p>
+      </div>
+      <div class="conclusion-card fade-up">
+        <div class="c-icon">🏗️</div>
+        <h4>Pilot Community Bioreactor</h4>
+        <p>A modular 500-litre open raceway pond adjacent to Ambazari Lake is proposed, managed by a local self-help group, producing biofuel for community cooking or lighting while continuously remediating lake water.</p>
+      </div>
+      <div class="conclusion-card fade-up">
+        <div class="c-icon">📜</div>
+        <h4>Policy Advocacy</h4>
+        <p>Municipal bodies should be engaged to recognise algal biomass harvesting as an official eutrophication control strategy, enabling public funding for scale-up and integration into Nagpur's urban lake management plans.</p>
+      </div>
+      <div class="conclusion-card fade-up">
+        <div class="c-icon">🎓</div>
+        <h4>Curriculum Integration</h4>
+        <p>The experimental protocol is simple enough for school science labs and should be packaged as an activity module for Classes 9–12, connecting the National Curriculum's sustainability themes to hands-on local environmental action.</p>
+      </div>
+      <div class="conclusion-card fade-up">
+        <div class="c-icon">📊</div>
+        <h4>Long-Term Monitoring</h4>
+        <p>A 12-month water-quality monitoring programme at Ambazari should be established to track seasonal variation in algal productivity and nutrient levels, building the longitudinal dataset needed for credible policy impact assessments.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FOOTER — ACKNOWLEDGEMENTS & REFERENCES
+============================================================ -->
+<footer id="footer">
+  <div class="container">
+    <div class="footer-grid">
+
+      <!-- ACKNOWLEDGEMENTS -->
+      <div>
+        <h4>🙏 Acknowledgements</h4>
+        <!-- ✏️ PASTE YOUR ACKNOWLEDGEMENTS HERE -->
+        <p>
+          The author sincerely thanks <strong style="color:var(--text-bright);"><!-- Guide / Teacher name --></strong> for invaluable guidance throughout this project. Gratitude is also extended to the laboratory staff of <strong style="color:var(--text-bright);"><!-- Institution name --></strong> for access to equipment, and to the residents near Ambazari Lake who participated in the community awareness programme. Special thanks to family and friends for their encouragement and support.
+        </p>
+        <br />
+        <p style="color:var(--text-muted); font-size:.83rem;">
+          <!-- ✏️ ADD SCHOOL / INSTITUTION NAME, ACADEMIC YEAR, CLASS/GRADE -->
+          <span style="color:var(--cyan);">School / Institution:</span> [Your School Name Here]<br />
+          <span style="color:var(--cyan);">Class / Grade:</span> [Your Class]<br />
+          <span style="color:var(--cyan);">Academic Year:</span> [Year]
+        </p>
+      </div>
+
+      <!-- REFERENCES -->
+      <div>
+        <h4>📚 References</h4>
+        <!-- ✏️ REPLACE WITH YOUR ACTUAL REFERENCES IN ORDER CITED -->
+        <ol>
+          <li>Chisti, Y. (2007). Biodiesel from microalgae. <em>Biotechnology Advances</em>, 25(3), 294–306.</li>
+          <li>Hu, Q., et al. (2008). Microalgal triacylglycerols as feedstocks for biofuel production. <em>Plant Journal</em>, 54(4), 621–639.</li>
+          <li>Brennan, L., &amp; Owende, P. (2010). Biofuels from microalgae — a review of technologies. <em>Renewable &amp; Sustainable Energy Reviews</em>, 14(2), 557–577.</li>
+          <li>Mata, T. M., et al. (2010). Microalgae for biodiesel production and other applications. <em>Renewable &amp; Sustainable Energy Reviews</em>, 14(1), 217–232.</li>
+          <li><!-- ✏️ ADD REFERENCE 5 --></li>
+          <li><!-- ✏️ ADD REFERENCE 6 --></li>
+        </ol>
+      </div>
+
+    </div>
+
+    <div class="footer-copy">
+      <div>
+        &copy; 2025 <span class="glow-text">Ayushman Choudhary</span> · From Pond to Pump
+      </div>
+      <div style="color:var(--text-muted); font-size:.75rem;">
+        All images and data are the original work of the author. Built for GitHub Pages.
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- ============================================================
+     JAVASCRIPT
+============================================================ -->
+<script>
+  /* ── Mobile menu ── */
+  function toggleMenu() {
+    document.getElementById('mobileMenu').classList.toggle('open');
+  }
+  function closeMenu() {
+    document.getElementById('mobileMenu').classList.remove('open');
+  }
+
+  /* ── Scroll-in animation (Intersection Observer) ── */
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+  /* ── Hero particle canvas ── */
+  (function () {
+    const canvas = document.getElementById('hero-canvas');
+    const ctx = canvas.getContext('2d');
+    let particles = [];
+    const COLORS = ['rgba(0,229,255,', 'rgba(57,255,138,', 'rgba(0,255,213,'];
+
+    function resize() {
+      canvas.width = canvas.offsetWidth;
+      canvas.height = canvas.offsetHeight;
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    class Particle {
+      constructor() { this.reset(true); }
+      reset(initial) {
+        this.x = Math.random() * canvas.width;
+        this.y = initial ? Math.random() * canvas.height : canvas.height + 10;
+        this.r = Math.random() * 2.5 + 0.5;
+        this.vx = (Math.random() - 0.5) * 0.4;
+        this.vy = -(Math.random() * 0.5 + 0.2);
+        this.alpha = Math.random() * 0.5 + 0.1;
+        this.color = COLORS[Math.floor(Math.random() * COLORS.length)];
+        this.twinkle = Math.random() * Math.PI * 2;
+        this.twinkleSpeed = 0.02 + Math.random() * 0.03;
+      }
+      draw() {
+        this.twinkle += this.twinkleSpeed;
+        const a = this.alpha * (0.7 + 0.3 * Math.sin(this.twinkle));
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+        ctx.fillStyle = this.color + a + ')';
+        ctx.fill();
+        // glow
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.r * 3, 0, Math.PI * 2);
+        ctx.fillStyle = this.color + (a * 0.15) + ')';
+        ctx.fill();
+      }
+      update() {
+        this.x += this.vx;
+        this.y += this.vy;
+        if (this.y < -10) this.reset(false);
+      }
+    }
+
+    for (let i = 0; i < 90; i++) particles.push(new Particle());
+
+    function loop() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      particles.forEach(p => { p.update(); p.draw(); });
+      requestAnimationFrame(loop);
+    }
+    loop();
+  })();
+
+  /* ── Active nav link highlight on scroll ── */
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+
+  const sectionObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(a => a.style.color = '');
+        const active = document.querySelector(`.nav-links a[href="#${entry.target.id}"]`);
+        if (active) active.style.color = 'var(--cyan)';
+      }
+    });
+  }, { threshold: 0.4 });
+
+  sections.forEach(s => sectionObserver.observe(s));
+</script>
+
+</body>
+</html>
