@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>From Pond to Pump | Ayushman Choudhary</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg-void:#020b12; --bg-deep:#030f1a; --bg-card:rgba(4,22,36,0.72); --bg-card-alt:rgba(6,30,46,0.80);
+      --cyan:#00e5ff; --cyan-dim:#00b4cc; --green:#39ff8a; --green-dim:#24c060; --teal:#00ffd5; --teal-dim:#00b89a;
+      --text-bright:#e8f7ff; --text-body:#8fb8cc; --text-muted:#4a7a92;
+      --glow-cyan:0 0 18px rgba(0,229,255,.55),0 0 48px rgba(0,229,255,.18);
+      --glow-green:0 0 18px rgba(57,255,138,.55),0 0 48px rgba(57,255,138,.18);
+      --border:rgba(0,229,255,.14); --border-hover:rgba(0,229,255,.45);
+      --radius-card:18px; --radius-sm:10px; --nav-h:68px;
+      --font-head:'Syne',sans-serif; --font-body:'DM Sans',sans-serif;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+    html{scroll-behavior:smooth;font-size:16px;}
+    body{background-color:var(--bg-void);color:var(--text-body);font-family:var(--font-body);line-height:1.75;overflow-x:hidden;}
+    body::before{content:'';position:fixed;inset:0;background-image:linear-gradient(rgba(0,229,255,.025) 1px,transparent 1px),linear-gradient(90deg,rgba(0,229,255,.025) 1px,transparent 1px);background-size:60px 60px;pointer-events:none;z-index:0;}
+    main,nav,footer,section{position:relative;z-index:1;}
+    ::-webkit-scrollbar{width:6px;} ::-webkit-scrollbar-track{background:var(--bg-void);} ::-webkit-scrollbar-thumb{background:var(--cyan-dim);border-radius:4px;}
+    h1,h2,h3,h4{font-family:var(--font-head);color:var(--text-bright);line-height:1.2;}
+    .section-label{font-family:var(--font-head);font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:var(--cyan);text-shadow:var(--glow-cyan);margin-bottom:.6rem;}
+    .section-title{font-size:clamp(1.8rem,3.5vw,2.8rem);font-weight:800;margin-bottom:1.4rem;}
+    .section-title span{background:linear-gradient(120deg,var(--cyan),var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+    p{color:var(--text-body);}
+    a{color:var(--cyan);text-decoration:none;transition:color .2s;} a:hover{color:var(--teal);}
+    .container{max-width:1160px;margin:0 auto;padding:0 28px;}
+    section{padding:96px 0;}
+    section:nth-child(even){background:linear-gradient(180deg,transparent,rgba(0,60,80,.10) 50%,transparent);}
+
+    /* NAV */
+    nav{position:fixed;top:0;left:0;right:0;height:var(--nav-h);z-index:1000;background:rgba(2,11,18,.82);backdrop-filter:blur(18px);border-bottom:1px solid var(--border);display:flex;align-items:center;}
+    nav .container{width:100%;display:flex;align-items:center;justify-content:space-between;gap:1rem;}
+    .nav-brand{font-family:var(--font-head);font-weight:800;font-size:1.05rem;color:var(--text-bright);white-space:nowrap;display:flex;align-items:center;gap:.5rem;}
+    .nav-brand .dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:var(--glow-green);animation:pulse-dot 2s infinite;}
+    @keyframes pulse-dot{0%,100%{transform:scale(1);opacity:1;}50%{transform:scale(1.5);opacity:.7;}}
+    .nav-links{display:flex;align-items:center;gap:.1rem;list-style:none;}
+    .nav-links a{font-size:.82rem;font-weight:500;letter-spacing:.03em;color:var(--text-body);padding:.4rem .7rem;border-radius:var(--radius-sm);transition:color .2s,background .2s;}
+    .nav-links a:hover{color:var(--cyan);background:rgba(0,229,255,.07);}
+    .hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:6px;background:none;border:none;}
+    .hamburger span{display:block;width:24px;height:2px;background:var(--text-bright);border-radius:2px;transition:transform .3s,opacity .3s;}
+    .mobile-menu{display:none;position:fixed;top:var(--nav-h);left:0;right:0;background:rgba(2,11,18,.96);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:1.5rem 28px;z-index:999;flex-direction:column;gap:.3rem;}
+    .mobile-menu.open{display:flex;}
+    .mobile-menu a{color:var(--text-body);padding:.7rem 0;font-size:.95rem;font-weight:500;border-bottom:1px solid var(--border);}
+    .mobile-menu a:last-child{border-bottom:none;} .mobile-menu a:hover{color:var(--cyan);}
+
+    /* HERO */
+    #hero{min-height:100vh;display:flex;align-items:center;padding-top:var(--nav-h);overflow:hidden;position:relative;}
+    #hero::before{content:'';position:absolute;width:700px;height:700px;border-radius:50%;background:radial-gradient(circle,rgba(0,229,255,.12),transparent 70%);top:-200px;left:-200px;pointer-events:none;}
+    #hero::after{content:'';position:absolute;width:500px;height:500px;border-radius:50%;background:radial-gradient(circle,rgba(57,255,138,.10),transparent 70%);bottom:-100px;right:-100px;pointer-events:none;}
+    .hero-inner{position:relative;z-index:2;max-width:820px;}
+    .hero-badge{display:inline-flex;align-items:center;gap:.5rem;background:rgba(0,229,255,.07);border:1px solid rgba(0,229,255,.25);border-radius:100px;padding:.35rem 1rem;font-size:.78rem;font-family:var(--font-head);letter-spacing:.1em;text-transform:uppercase;color:var(--cyan);margin-bottom:1.6rem;box-shadow:0 0 20px rgba(0,229,255,.1);}
+    .hero-badge .blink{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse-dot 1.5s infinite;}
+    .hero-title{font-size:clamp(2.4rem,6vw,5rem);font-weight:800;line-height:1.08;margin-bottom:1.4rem;letter-spacing:-.02em;}
+    .hero-title .line-accent{display:block;background:linear-gradient(100deg,var(--cyan),var(--green) 60%,var(--teal));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;filter:drop-shadow(0 0 22px rgba(0,229,255,.4));}
+    .hero-subtitle{font-size:clamp(1rem,2vw,1.2rem);color:var(--text-body);max-width:600px;margin-bottom:1rem;line-height:1.7;}
+    .hero-meta{display:flex;flex-wrap:wrap;gap:1.2rem;align-items:center;margin-bottom:2.6rem;}
+    .hero-author{font-family:var(--font-head);font-size:.95rem;color:var(--teal);letter-spacing:.06em;display:flex;align-items:center;gap:.5rem;}
+    .hero-author::before{content:'';display:inline-block;width:32px;height:1px;background:var(--teal);box-shadow:0 0 6px var(--teal);}
+    .hero-tag{font-family:var(--font-head);font-size:.78rem;color:var(--green);background:rgba(57,255,138,.08);border:1px solid rgba(57,255,138,.2);border-radius:100px;padding:.25rem .8rem;letter-spacing:.06em;}
+    .btn-row{display:flex;flex-wrap:wrap;gap:1rem;}
+    .btn-primary{display:inline-flex;align-items:center;gap:.6rem;background:linear-gradient(135deg,var(--cyan) 0%,var(--green) 100%);color:#020b12;font-family:var(--font-head);font-weight:700;font-size:.95rem;letter-spacing:.04em;padding:.9rem 2rem;border-radius:100px;border:none;cursor:pointer;box-shadow:0 0 28px rgba(0,229,255,.40),0 4px 24px rgba(0,0,0,.3);transition:transform .2s,box-shadow .2s;text-decoration:none;}
+    .btn-primary:hover{transform:translateY(-2px);box-shadow:0 0 42px rgba(0,229,255,.65),0 8px 32px rgba(0,0,0,.4);color:#020b12;}
+    .btn-primary svg{transition:transform .2s;} .btn-primary:hover svg{transform:translateY(3px);}
+    .btn-ghost{display:inline-flex;align-items:center;gap:.6rem;background:transparent;color:var(--cyan);font-family:var(--font-head);font-weight:600;font-size:.9rem;padding:.85rem 1.8rem;border-radius:100px;border:1px solid rgba(0,229,255,.35);cursor:pointer;transition:all .2s;text-decoration:none;}
+    .btn-ghost:hover{background:rgba(0,229,255,.07);border-color:var(--cyan);color:var(--cyan);}
+    #hero-canvas{position:absolute;inset:0;pointer-events:none;z-index:1;}
+    .hero-stats{display:flex;flex-wrap:wrap;gap:1.5rem;margin-top:3rem;}
+    .stat-pill{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;padding:.7rem 1.3rem;display:flex;flex-direction:column;gap:.1rem;backdrop-filter:blur(12px);}
+    .stat-pill .val{font-family:var(--font-head);font-size:1.4rem;font-weight:800;background:linear-gradient(120deg,var(--cyan),var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;}
+    .stat-pill .lbl{font-size:.72rem;color:var(--text-muted);letter-spacing:.06em;}
+
+    /* ABSTRACT */
+    #abstract .abstract-box{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-card);padding:3rem 3.5rem;position:relative;backdrop-filter:blur(12px);box-shadow:0 0 48px rgba(0,229,255,.06),inset 0 1px 0 rgba(255,255,255,.04);}
+    #abstract .abstract-box::before{content:'"';position:absolute;top:-1.2rem;left:2.5rem;font-size:8rem;font-family:var(--font-head);color:var(--cyan);opacity:.12;line-height:1;}
+    #abstract .abstract-box p{font-size:1.08rem;line-height:1.9;margin-bottom:1rem;}
+    #abstract .abstract-box p:last-child{margin-bottom:0;}
+    .budget-badge{display:inline-flex;align-items:center;gap:.5rem;margin-top:1.4rem;background:rgba(57,255,138,.07);border:1px solid rgba(57,255,138,.25);border-radius:100px;padding:.4rem 1.2rem;font-family:var(--font-head);font-size:.85rem;color:var(--green);box-shadow:0 0 16px rgba(57,255,138,.12);}
+
+    /* INTRO */
+    #intro .two-col{display:grid;grid-template-columns:1fr 1fr;gap:2rem;}
+    .glassy-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-card);padding:2.2rem;backdrop-filter:blur(12px);transition:border-color .3s,box-shadow .3s,transform .3s;}
+    .glassy-card:hover{border-color:var(--border-hover);box-shadow:0 0 32px rgba(0,229,255,.12);transform:translateY(-4px);}
+    .glassy-card h3{font-size:1.25rem;font-weight:700;margin-bottom:1rem;color:var(--text-bright);display:flex;align-items:center;gap:.6rem;}
+    .card-icon{width:34px;height:34px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;}
+    .card-icon.cyan{background:rgba(0,229,255,.12);box-shadow:0 0 12px rgba(0,229,255,.2);}
+    .card-icon.green{background:rgba(57,255,138,.12);box-shadow:0 0 12px rgba(57,255,138,.2);}
+    .card-icon.teal{background:rgba(0,255,213,.12);box-shadow:0 0 12px rgba(0,255,213,.2);}
+    .bullet-list{list-style:none;padding:0;margin-top:.8rem;}
+    .bullet-list li{padding:.35rem 0;font-size:.93rem;color:var(--text-body);border-bottom:1px solid rgba(0,229,255,.07);display:flex;gap:.6rem;}
+    .bullet-list li::before{content:'▸';color:var(--cyan);flex-shrink:0;}
+    .bullet-list li:last-child{border-bottom:none;}
+
+    /* OBJECTIVES */
+    #objectives .obj-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.4rem;margin-top:2rem;}
+    .obj-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-card);padding:1.8rem;backdrop-filter:blur(12px);transition:border-color .3s,box-shadow .3s,transform .3s;display:flex;gap:1rem;}
+    .obj-card:hover{border-color:rgba(57,255,138,.4);box-shadow:0 0 28px rgba(57,255,138,.10);transform:translateY(-3px);}
+    .obj-num{font-family:var(--font-head);font-size:2rem;font-weight:800;line-height:1;color:transparent;-webkit-text-stroke:1.5px var(--green);opacity:.35;flex-shrink:0;}
+    .obj-card p{font-size:.94rem;line-height:1.7;}
+    .hypothesis-box{margin-top:2.8rem;background:var(--bg-card-alt);border:1px solid rgba(0,229,255,.18);border-radius:var(--radius-card);padding:2.4rem 3rem;position:relative;backdrop-filter:blur(12px);}
+    .hypothesis-box::before{content:'H';position:absolute;top:-1rem;right:2rem;font-size:9rem;font-family:var(--font-head);color:var(--cyan);opacity:.04;line-height:1;}
+    .hypothesis-box h3{font-size:1.15rem;color:var(--cyan);margin-bottom:1rem;}
+    .hypothesis-list{list-style:none;padding:0;}
+    .hypothesis-list li{padding:.5rem 0;font-size:.97rem;line-height:1.75;border-bottom:1px solid rgba(0,229,255,.07);display:flex;gap:.8rem;}
+    .hypothesis-list li::before{content:'🧪';flex-shrink:0;}
+    .hypothesis-list li:last-child{border-bottom:none;}
+
+    /* TIMELINE */
+    #methodology .timeline{position:relative;margin-top:3rem;}
+    .timeline::before{content:'';position:absolute;left:30px;top:0;bottom:0;width:2px;background:linear-gradient(180deg,var(--cyan),var(--green),var(--teal));box-shadow:0 0 12px rgba(0,229,255,.5);}
+    .timeline-step{display:flex;gap:2rem;margin-bottom:2.8rem;position:relative;}
+    .timeline-node{flex-shrink:0;width:62px;display:flex;flex-direction:column;align-items:center;gap:.3rem;}
+    .node-dot{width:22px;height:22px;border-radius:50%;border:2px solid var(--cyan);background:var(--bg-void);box-shadow:0 0 14px rgba(0,229,255,.7),0 0 28px rgba(0,229,255,.3);position:relative;z-index:1;margin-left:-1px;flex-shrink:0;}
+    .node-dot.green{border-color:var(--green);box-shadow:0 0 14px rgba(57,255,138,.7),0 0 28px rgba(57,255,138,.3);}
+    .node-dot.teal{border-color:var(--teal);box-shadow:0 0 14px rgba(0,255,213,.7),0 0 28px rgba(0,255,213,.3);}
+    .timeline-content{flex:1;background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-card);padding:1.6rem 2rem;backdrop-filter:blur(12px);transition:border-color .3s,box-shadow .3s;}
+    .timeline-content:hover{border-color:var(--border-hover);box-shadow:0 0 24px rgba(0,229,255,.10);}
+    .timeline-content h4{font-size:1.08rem;font-weight:700;margin-bottom:.5rem;color:var(--text-bright);}
+    .timeline-content p{font-size:.93rem;line-height:1.75;margin-bottom:.8rem;}
+    .timeline-content p:last-child{margin-bottom:0;}
+    .step-meta{display:inline-flex;align-items:center;gap:.4rem;font-size:.74rem;font-family:var(--font-head);color:var(--teal);background:rgba(0,255,213,.07);border:1px solid rgba(0,255,213,.15);border-radius:100px;padding:.2rem .7rem;margin-bottom:.8rem;}
+
+    /* BUDGET TABLE */
+    .budget-table{width:100%;border-collapse:collapse;margin-top:2.5rem;border-radius:var(--radius-card);overflow:hidden;}
+    .budget-table th{background:rgba(0,229,255,.08);color:var(--cyan);font-family:var(--font-head);font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;padding:.9rem 1.2rem;text-align:left;border-bottom:1px solid var(--border);}
+    .budget-table td{padding:.85rem 1.2rem;font-size:.88rem;color:var(--text-body);border-bottom:1px solid rgba(0,229,255,.06);background:var(--bg-card);}
+    .budget-table tr:last-child td{border-bottom:none;font-weight:700;color:var(--green);font-family:var(--font-head);}
+    .budget-table tr:hover td{background:rgba(0,229,255,.04);}
+
+    /* METHOD IMAGES */
+    .method-images{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1.2rem;margin-top:3rem;}
+    .method-img-wrap{border-radius:var(--radius-card);overflow:hidden;border:1px solid var(--border);box-shadow:0 0 24px rgba(0,0,0,.4);transition:transform .3s,box-shadow .3s,border-color .3s;aspect-ratio:4/3;background:rgba(4,22,36,.8);}
+    .method-img-wrap:hover{transform:scale(1.03);box-shadow:0 0 36px rgba(0,229,255,.2);border-color:var(--border-hover);}
+    .method-img-wrap img{width:100%;height:100%;object-fit:cover;display:block;}
+    .method-img-wrap figcaption{padding:.7rem 1rem;font-size:.78rem;text-align:center;color:var(--text-muted);background:rgba(2,11,18,.6);}
+    figure{display:block;}
+
+    /* OBSERVATIONS */
+    .obs-table-wrap{overflow-x:auto;margin-top:2rem;}
+    .data-table{width:100%;border-collapse:collapse;border-radius:var(--radius-card);overflow:hidden;min-width:560px;}
+    .data-table th{background:rgba(0,229,255,.08);color:var(--cyan);font-family:var(--font-head);font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;padding:.8rem 1rem;text-align:left;border-bottom:1px solid var(--border);}
+    .data-table td{padding:.75rem 1rem;font-size:.86rem;color:var(--text-body);border-bottom:1px solid rgba(0,229,255,.06);background:var(--bg-card);}
+    .data-table tr:last-child td{border-bottom:none;}
+    .data-table tr:hover td{background:rgba(0,229,255,.04);}
+    .data-table .highlight{color:var(--green);font-weight:700;font-family:var(--font-head);}
+    .data-table .dim{color:var(--text-muted);}
+    .obs-section-title{font-family:var(--font-head);font-size:1rem;font-weight:700;color:var(--teal);margin:2.4rem 0 .8rem;letter-spacing:.04em;}
+    #observations .obs-images{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1.4rem;margin-top:2.4rem;}
+    .obs-img-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-card);overflow:hidden;backdrop-filter:blur(12px);transition:transform .3s,box-shadow .3s,border-color .3s;}
+    .obs-img-card:hover{transform:translateY(-6px);box-shadow:0 12px 48px rgba(0,0,0,.5),0 0 32px rgba(57,255,138,.12);border-color:rgba(57,255,138,.3);}
+    .obs-img-card .img-wrap{width:100%;aspect-ratio:4/3;overflow:hidden;background:rgba(4,22,36,.6);}
+    .obs-img-card img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s;}
+    .obs-img-card:hover img{transform:scale(1.05);}
+    .obs-img-card .img-info{padding:1rem 1.2rem;}
+    .obs-img-card .img-info h4{font-size:.95rem;font-weight:700;margin-bottom:.35rem;color:var(--text-bright);}
+    .obs-img-card .img-info p{font-size:.82rem;color:var(--text-muted);line-height:1.6;}
+    .findings-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:1.2rem;margin-top:2rem;}
+    .finding-card{background:var(--bg-card-alt);border:1px solid var(--border);border-radius:var(--radius-card);padding:1.6rem;display:flex;flex-direction:column;gap:.5rem;transition:border-color .3s,box-shadow .3s;}
+    .finding-card:hover{border-color:var(--border-hover);box-shadow:0 0 24px rgba(0,229,255,.1);}
+    .finding-value{font-family:var(--font-head);font-size:2.2rem;font-weight:800;background:linear-gradient(120deg,var(--cyan),var(--green));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;}
+    .finding-label{font-size:.85rem;font-weight:500;color:var(--text-bright);}
+    .finding-desc{font-size:.8rem;color:var(--text-muted);}
+
+    /* ANALYSIS */
+    #analysis .analysis-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1.6rem;margin-top:2rem;}
+    .analysis-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-card);padding:2rem;backdrop-filter:blur(12px);transition:border-color .3s,box-shadow .3s,transform .3s;}
+    .analysis-card:hover{border-color:var(--border-hover);box-shadow:0 0 28px rgba(0,229,255,.10);transform:translateY(-3px);}
+    .analysis-card h4{font-size:1.05rem;font-weight:700;color:var(--cyan);margin-bottom:1rem;}
+    .analysis-card p{font-size:.9rem;line-height:1.75;}
+    .deduction-box{margin-top:1rem;background:rgba(57,255,138,.05);border-left:3px solid var(--green);border-radius:0 8px 8px 0;padding:.8rem 1rem;font-size:.85rem;color:var(--green-dim);font-style:italic;}
+
+    /* SURVEY */
+    #survey .survey-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.4rem;margin-top:2rem;}
+    .survey-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-card);padding:1.8rem;backdrop-filter:blur(12px);transition:border-color .3s,box-shadow .3s;}
+    .survey-card:hover{border-color:var(--border-hover);box-shadow:0 0 24px rgba(0,229,255,.10);}
+    .survey-card .q{font-size:.88rem;color:var(--text-body);margin-bottom:1rem;line-height:1.6;}
+    .bar-row{display:flex;flex-direction:column;gap:.5rem;}
+    .bar-item label{font-size:.78rem;color:var(--text-muted);display:flex;justify-content:space-between;margin-bottom:.25rem;}
+    .bar-item label span{color:var(--cyan);font-weight:700;}
+    .bar-track{height:8px;background:rgba(0,229,255,.08);border-radius:100px;overflow:hidden;}
+    .bar-fill{height:100%;border-radius:100px;transition:width 1s ease;}
+    .bar-fill.yes{background:linear-gradient(90deg,var(--cyan),var(--green));box-shadow:0 0 8px rgba(0,229,255,.4);}
+    .bar-fill.no{background:linear-gradient(90deg,rgba(0,229,255,.3),rgba(0,229,255,.15));}
+    .survey-deduction{margin-top:2.4rem;background:var(--bg-card-alt);border:1px solid rgba(0,255,213,.2);border-radius:var(--radius-card);padding:1.8rem 2.4rem;}
+    .survey-deduction p{font-size:.97rem;line-height:1.85;}
+
+    /* IMPACT */
+    #impact .impact-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.6rem;margin-top:2.4rem;}
+    .impact-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-card);padding:2rem;backdrop-filter:blur(12px);transition:border-color .3s,box-shadow .3s,transform .3s;position:relative;overflow:hidden;}
+    .impact-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
+    .impact-card.c1::before{background:linear-gradient(90deg,var(--cyan),transparent);box-shadow:0 0 10px var(--cyan);}
+    .impact-card.c2::before{background:linear-gradient(90deg,var(--green),transparent);box-shadow:0 0 10px var(--green);}
+    .impact-card.c3::before{background:linear-gradient(90deg,var(--teal),transparent);box-shadow:0 0 10px var(--teal);}
+    .impact-card:hover{border-color:var(--border-hover);box-shadow:0 8px 40px rgba(0,0,0,.4),0 0 24px rgba(0,229,255,.1);transform:translateY(-5px);}
+    .impact-emoji{font-size:2.4rem;margin-bottom:1rem;display:block;}
+    .impact-card h3{font-size:1.12rem;font-weight:700;margin-bottom:.7rem;color:var(--text-bright);}
+    .impact-card p{font-size:.9rem;line-height:1.75;}
+
+    /* CONCLUSION */
+    #conclusion .conclusion-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.4rem;margin-top:2.4rem;}
+    .conclusion-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-card);padding:1.8rem;backdrop-filter:blur(12px);transition:border-color .3s,box-shadow .3s,transform .3s;}
+    .conclusion-card:hover{border-color:rgba(0,255,213,.35);box-shadow:0 0 28px rgba(0,255,213,.10);transform:translateY(-3px);}
+    .conclusion-card .c-icon{font-size:1.6rem;margin-bottom:.8rem;}
+    .conclusion-card h4{font-size:1rem;font-weight:700;margin-bottom:.5rem;color:var(--teal);}
+    .conclusion-card p{font-size:.88rem;line-height:1.75;}
+    .scope-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1.2rem;margin-top:1.4rem;}
+    .scope-card{background:var(--bg-card-alt);border:1px solid var(--border);border-radius:var(--radius-card);padding:1.4rem 1.6rem;transition:border-color .3s,transform .3s;}
+    .scope-card:hover{border-color:rgba(57,255,138,.3);transform:translateY(-2px);}
+    .scope-card h5{font-family:var(--font-head);font-size:.9rem;color:var(--green);margin-bottom:.4rem;}
+    .scope-card p{font-size:.84rem;line-height:1.7;}
+
+    /* REMEDIAL */
+    #remedial .remedial-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:1.6rem;margin-top:2rem;}
+    .remedial-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-card);padding:2rem;backdrop-filter:blur(12px);transition:border-color .3s,box-shadow .3s;}
+    .remedial-card:hover{border-color:var(--border-hover);box-shadow:0 0 24px rgba(0,229,255,.08);}
+    .remedial-card .problem-tag{font-size:.72rem;font-family:var(--font-head);letter-spacing:.1em;text-transform:uppercase;color:var(--teal);margin-bottom:.8rem;}
+    .remedial-card h4{font-size:1rem;font-weight:700;color:var(--text-bright);margin-bottom:1rem;}
+    .remedial-row{margin-bottom:.7rem;}
+    .remedial-row .rkey{font-size:.75rem;font-family:var(--font-head);letter-spacing:.08em;text-transform:uppercase;color:var(--cyan);margin-bottom:.2rem;}
+    .remedial-row p{font-size:.86rem;line-height:1.7;}
+
+    /* FOOTER */
+    footer{background:var(--bg-deep);border-top:1px solid var(--border);padding:72px 0 40px;}
+    .footer-grid{display:grid;grid-template-columns:1fr 1fr;gap:3rem;margin-bottom:3rem;}
+    footer h4{font-family:var(--font-head);font-size:1rem;font-weight:700;color:var(--text-bright);margin-bottom:1.2rem;padding-bottom:.6rem;border-bottom:1px solid var(--border);}
+    footer p,footer li{font-size:.875rem;color:var(--text-muted);line-height:1.85;}
+    footer ol,footer ul{padding-left:1.3rem;} footer li{margin-bottom:.5rem;} footer li em{color:var(--text-body);}
+    .footer-copy{text-align:center;padding-top:2rem;border-top:1px solid var(--border);font-size:.8rem;color:var(--text-muted);display:flex;flex-direction:column;align-items:center;gap:.4rem;}
+    .footer-copy .glow-text{color:var(--cyan);text-shadow:var(--glow-cyan);}
+
+    /* UTILS */
+    .glow-divider{width:80px;height:3px;background:linear-gradient(90deg,var(--cyan),var(--green));border-radius:2px;box-shadow:0 0 12px rgba(0,229,255,.5);margin-bottom:1.6rem;}
+    .fade-up{opacity:0;transform:translateY(32px);transition:opacity .65s ease,transform .65s ease;}
+    .fade-up.visible{opacity:1;transform:translateY(0);}
+    .fade-up:nth-child(2){transition-delay:.1s}.fade-up:nth-child(3){transition-delay:.2s}.fade-up:nth-child(4){transition-delay:.3s}.fade-up:nth-child(5){transition-delay:.4s}.fade-up:nth-child(6){transition-delay:.5s}
+
+    @media(max-width:768px){
+      .nav-links{display:none;}.hamburger{display:flex;}
+      #intro .two-col,.footer-grid{grid-template-columns:1fr;gap:1.8rem;}
+      .timeline::before{left:16px;}.timeline-node{width:36px;}.timeline-step{gap:1.2rem;}
+      #abstract .abstract-box{padding:1.8rem 1.6rem;}
+      section{padding:64px 0;}.hero-stats{gap:1rem;}
+    }
+    @media(max-width:480px){
+      .hero-title{font-size:2.1rem;}
+      .method-images,#observations .obs-images{grid-template-columns:1fr;}
+    }
+  </style>
+</head>
+<body>
+
+<!-- ⚙️ EDIT THIS ONE LINE — your GitHub raw base URL -->
+<script>
+  const GITHUB_RAW = "https://raw.githubusercontent.com/YOUR_USERNAME/YOUR_REPO/main";
+</script>
+
+<!-- NAV -->
+<nav>
+  <div class="container">
+    <div class="nav-brand"><span class="dot"></span>Pond to Pump</div>
+    <ul class="nav-links">
+      <li><a href="#abstract">Abstract</a></li>
+      <li><a href="#intro">Introduction</a></li>
+      <li><a href="#objectives">Objectives</a></li>
+      <li><a href="#methodology">Method</a></li>
+      <li><a href="#observations">Observations</a></li>
+      <li><a href="#analysis">Analysis</a></li>
+      <li><a href="#survey">Survey</a></li>
+      <li><a href="#impact">Beyond Lab</a></li>
+      <li><a href="#conclusion">Conclusion</a></li>
+      <li><a href="#footer">References</a></li>
+    </ul>
+    <button class="hamburger" onclick="toggleMenu()" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#abstract" onclick="closeMenu()">Abstract</a>
+  <a href="#intro" onclick="closeMenu()">Introduction</a>
+  <a href="#objectives" onclick="closeMenu()">Objectives</a>
+  <a href="#methodology" onclick="closeMenu()">Methodology</a>
+  <a href="#observations" onclick="closeMenu()">Observations</a>
+  <a href="#analysis" onclick="closeMenu()">Analysis</a>
+  <a href="#survey" onclick="closeMenu()">Survey</a>
+  <a href="#impact" onclick="closeMenu()">Beyond Lab</a>
+  <a href="#conclusion" onclick="closeMenu()">Conclusion</a>
+  <a href="#footer" onclick="closeMenu()">References</a>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <canvas id="hero-canvas"></canvas>
+  <div class="container">
+    <div class="hero-inner">
+      <div class="hero-badge"><span class="blink"></span>Dr. Homi Bhabha Balvaidyanik Competition · GBST-MSTA</div>
+      <h1 class="hero-title">From Pond <span class="line-accent">to Pump</span></h1>
+      <p class="hero-subtitle">Harnessing Nitrogen-Stressed Microalgae for Zero-Waste Biofuels and Aquatic Health — a micro-budget bio-refinery built for ₹55, validated by VNIT Nagpur.</p>
+      <div class="hero-meta">
+        <div class="hero-author">Ayushman Choudhary</div>
+        <span class="hero-tag">Bhavans B.P. Vidya Mandir Ashti</span>
+      </div>
+      <div class="btn-row">
+        <a href="#abstract" class="btn-primary">Explore the Project <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 8l5 5 5-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
+        <a href="#methodology" class="btn-ghost">View Methodology →</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-pill"><span class="val">34.2%</span><span class="lbl">Peak Lipid Yield</span></div>
+        <div class="stat-pill"><span class="val">39.1 MJ/kg</span><span class="lbl">Bio-oil Energy</span></div>
+        <div class="stat-pill"><span class="val">₹55</span><span class="lbl">Total Budget</span></div>
+        <div class="stat-pill"><span class="val">17 Days</span><span class="lbl">Full Cycle</span></div>
+        <div class="stat-pill"><span class="val">72.5%</span><span class="lbl">Public Ready to Adopt</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABSTRACT -->
+<section id="abstract">
+  <div class="container">
+    <div class="fade-up">
+      <div class="section-label">Research Summary</div>
+      <h2 class="section-title">Abstract</h2>
+      <div class="glow-divider"></div>
+    </div>
+    <div class="abstract-box fade-up">
+      <p>The rapid rise of CO₂ (over 420 ppm) and loss of fossil fuels demand green energy. Microalgae are a prime Third-generation Biofuel. They yield a massive 5,000–20,000 gallons of oil per acre per year needing no farmland. Algal biodiesel has a dense energy profile of 34–39 MJ/kg — matching petroleum diesel (~45 MJ/kg) and beating Hydrogen (~8.5 MJ/kg). Dried algae holds 30–60% protein matching spinach, yet needed 10× less land. Cultivating algae will result in less death of aquatic organisms as Eutrophication can be lessened.</p>
+      <p>This action research tested a Micro-budget (₹55), Closed-loop Algal bio-refinery model. Fresh algae were grown over a 10-day cycle in two setups in direct sunlight. The Nutrient-Rich control used cow-dung for fast growth. The Nitrogen-Starved setup forced strict metabolism. After sun-drying, the dry mass faced three tests: Anaerobic digestion, Mechanical Pressing, and a dual-solvent chemical extraction using cheap Isopropyl Alcohol and Gasoline — replicating the exact Bligh &amp; Dyer Method.</p>
+      <p>Lab tests proved the core idea: Nitrogen Starvation showed stunted mass growth (+70% vs +350%). Yet this stress forced a metabolic cell shift to hugely boosted oil-making. The solvent test on the stressed mass hit a peak Lipid yield of <strong style="color:var(--green)">34.2%</strong>, giving bio-oil a highly viable calorific value of <strong style="color:var(--green)">39.11 MJ/kg</strong>. In sharp contrast, hand-powered Mechanical Pressing failed fully due to tough cell walls, yielding just 3.3% oil. The Zero-waste Protocol was confirmed — leftover dead cells from the solvent test successfully produced burning Biogas. All samples were validated at the VNIT Mining &amp; Chemical Engineering Department.</p>
+      <p>A 40-person survey showed 65% of locals unaware of algal pond-waste fuels, yet 72.5% actively agreed to use them once educated. Beyond direct fuel, algae offers huge multi-industry value as a Bio-stimulant, Biofertilizer, Bio-Cement, and PHB bioplastic feedstock.</p>
+      <div class="budget-badge">⚗️ Total Project Budget: ₹55 only &nbsp;·&nbsp; 17-Day Experimental Cycle &nbsp;·&nbsp; VNIT Nagpur Lab Validated</div>
+    </div>
+  </div>
+</section>
+
+<!-- INTRODUCTION & NEED AND SCOPE -->
+<section id="intro">
+  <div class="container">
+    <div class="fade-up">
+      <div class="section-label">Background</div>
+      <h2 class="section-title">Introduction &amp; <span>Need and Scope</span></h2>
+      <div class="glow-divider"></div>
+    </div>
+    <div class="two-col">
+      <div class="glassy-card fade-up">
+        <h3><span class="card-icon cyan">🔬</span>Introduction</h3>
+        <p>India relies heavily on imported oil and on foreign countries — making local green fuel vital. This project explores one of the most powerful solutions: Micro-algae green fuel. Moreover, India has a long coastline too. This crop is unmatched — it yields 20,000 gallons of oil per acre per year without using valuable farmland. Algal diesel packs a dense 34–39 MJ/kg energy profile.</p>
+        <p style="margin-top:.9rem;">Crucially, algae cultivation leads to less death of aquatic organisms through reduced Eutrophication. Cleaning lakes increases the viability of fish as algae clears and sunlight reaches the bottom, restoring the entire aquatic food chain. This project positions Ambazari Lake's eutrophic bloom water not as a problem, but as a free, nutrient-rich resource for a circular, zero-waste biofuel pipeline.</p>
+      </div>
+      <div class="glassy-card fade-up">
+        <h3><span class="card-icon green">🌿</span>Need and Scope</h3>
+        <p style="font-weight:600;color:var(--text-bright);margin-bottom:.5rem;">Need:</p>
+        <ul class="bullet-list">
+          <li><strong>Energy Security:</strong> Addressing rising CO₂ levels, depletion of fossil fuels, and reliance on crude oil imports.</li>
+          <li><strong>Food vs. Fuel:</strong> Unlike traditional crops, micro-algae do not need fertile land — they thrive in wastewater and saline water.</li>
+          <li><strong>High Efficiency:</strong> Delivers massive oil fields (5,000–20,000 gallons/acre/year) with diesel-like energy density.</li>
+        </ul>
+        <p style="font-weight:600;color:var(--text-bright);margin:.9rem 0 .5rem;">Scope:</p>
+        <ul class="bullet-list">
+          <li><strong>Diverse Byproducts:</strong> Algal biomass yields biogas, bioplastics, bio-cement, and omega-3 rich food.</li>
+          <li><strong>Circular Bio-economy:</strong> Integrated bio-refineries can drive large-scale carbon-capture, recycling solvents and utilising wastewater + CO₂.</li>
+          <li><strong>Future Innovation:</strong> Paves the way for Algal Panels, Pyrolysis, Gasification, and GM algae technologies.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OBJECTIVES & HYPOTHESIS -->
+<section id="objectives">
+  <div class="container">
+    <div class="fade-up">
+      <div class="section-label">Goals &amp; Predictions</div>
+      <h2 class="section-title">Objectives &amp; <span>Hypothesis</span></h2>
+      <div class="glow-divider"></div>
+    </div>
+    <div class="obj-grid">
+      <div class="obj-card fade-up"><div class="obj-num">01</div><div><p>Design a low-cost Algal Panel PBR to maximise Light Exposure, control temperature, and enhance Biomass productivity.</p></div></div>
+      <div class="obj-card fade-up"><div class="obj-num">02</div><div><p>Cultivate micro-algae under various nutrient conditions to evaluate growth, lipid accumulation, and oil extraction for biodiesel.</p></div></div>
+      <div class="obj-card fade-up"><div class="obj-num">03</div><div><p>Convert residual biomass into Biogas using an integrated Bio-refinery system — utilising wastewater, CO₂, eutrophication reduction, and cutting carbon footprints.</p></div></div>
+      <div class="obj-card fade-up"><div class="obj-num">04</div><div><p>Educate the public through a dedicated Website and Awareness Programme near Ambazari Lake, and conduct a community survey.</p></div></div>
+      <div class="obj-card fade-up"><div class="obj-num">05</div><div><p>Build a Micro-Budget (₹55) Bio-refinery and test normal versus nitrogen-starved setups to quantify the effect on oil production efficiency.</p></div></div>
+      <div class="obj-card fade-up"><div class="obj-num">06</div><div><p>Make burning Biogas from dead cells under a strict Zero-Waste Protocol, completing a full energy cascade from a single algal batch.</p></div></div>
+    </div>
+    <div class="hypothesis-box fade-up">
+      <h3>🧪 Hypothesis</h3>
+      <ul class="hypothesis-list">
+        <li>If I use a flat, high surface-area Algal Panel, I may get better light penetration and faster biomass growth.</li>
+        <li>If I add a glass cover to trap heat and stop evaporation, I may get accelerated early growth and stable cultures.</li>
+        <li>If I test different nutrients like grey water and Nitrogen Deficiency, I may get higher total biomass or increased lipid production.</li>
+        <li>If I apply mechanical &amp; solvent extraction followed by Anaerobic digestion, I may get Biodiesel and Secondary Methane (CH₄).</li>
+        <li>If I feed wastewater and recycled CO₂ back into the system, I may get a closed-carbon loop providing renewable energy and carbon mitigation.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- METHODOLOGY -->
+<section id="methodology">
+  <div class="container">
+    <div class="fade-up">
+      <div class="section-label">Step-by-Step Process</div>
+      <h2 class="section-title">Project Plan &amp; <span>Research Method</span></h2>
+      <div class="glow-divider"></div>
+    </div>
+    <div class="timeline">
+      <div class="timeline-step fade-up">
+        <div class="timeline-node"><div class="node-dot"></div></div>
+        <div class="timeline-content">
+          <div class="step-meta">📅 13 Feb 2026 · 2.5 hrs · ₹0</div>
+          <h4>Step 1 — Algae &amp; Cow Dung Collection</h4>
+          <p>Collected 100 g of wet algae and 1,600 ml grey water from Ambazari Lake. Collected 60 g cow-dung to serve as methanogenic bacteria inoculant for the anaerobic digestion phase. Total initial collection cost: ₹0.</p>
+        </div>
+      </div>
+      <div class="timeline-step fade-up">
+        <div class="timeline-node"><div class="node-dot green"></div></div>
+        <div class="timeline-content">
+          <h4>Step 2 — Cultivation &amp; Nitrogen Stress Setup</h4>
+          <p>Two 1,000 ml beakers prepared to test the lipid accumulation hypothesis side-by-side.</p>
+          <p><strong style="color:var(--cyan)">Beaker 1 (Nutrient Rich):</strong> 800 ml grey water + 50 g wet algae + 20 g cow dung.</p>
+          <p><strong style="color:var(--green)">Beaker 2 (Nitrogen Stressed):</strong> 800 ml grey water + 50 g wet algae — no cow dung, no nitrogen source.</p>
+          <p>Recorded pH, colour, weight; placed both beakers in direct sunlight for growth.</p>
+        </div>
+      </div>
+      <div class="timeline-step fade-up">
+        <div class="timeline-node"><div class="node-dot teal"></div></div>
+        <div class="timeline-content">
+          <div class="step-meta">📅 13–23 Feb 2026 · 15 min/day</div>
+          <h4>Step 3 — Incubation</h4>
+          <p>Both beakers left undisturbed in natural sunlight with gentle stirring to ensure uniform light distribution and proper aeration across all 10 days.</p>
+        </div>
+      </div>
+      <div class="timeline-step fade-up">
+        <div class="timeline-node"><div class="node-dot"></div></div>
+        <div class="timeline-content">
+          <div class="step-meta">📅 Day 10 · 2 hrs</div>
+          <h4>Step 4 — Harvesting &amp; Matrix Division</h4>
+          <p>Filtered content of both beakers through fine muslin cloth. Final wet weights: <strong style="color:var(--cyan)">Beaker 1 = 225 g (+350%)</strong>, <strong style="color:var(--green)">Beaker 2 = 85 g (+70%)</strong>. Divided mass equally (~28 g each) into 6 sub-flasks (250 ml each) labelled 1.1, 1.2, 1.3, 2.1, 2.2, 2.3.</p>
+        </div>
+      </div>
+      <div class="timeline-step fade-up">
+        <div class="timeline-node"><div class="node-dot green"></div></div>
+        <div class="timeline-content">
+          <div class="step-meta">📅 27 Feb 2026</div>
+          <h4>Step 5 — Multi-Method Extraction</h4>
+          <p><strong style="color:var(--cyan)">Method 1 — Anaerobic Digestion (1.1 &amp; 2.1):</strong> Added 10 g cow-dung with a splash of water, sealed with latex balloon and rubber bands.</p>
+          <p><strong style="color:var(--green)">Method 2 — Mechanical Pressing (1.2 &amp; 2.2):</strong> Sun-dried algae on a tray, powdered it, then applied mechanical press using a rolling-pin to extract oil droplets.</p>
+          <p><strong style="color:var(--teal)">Method 3 — Dual Solvent Extraction (1.3 &amp; 2.3):</strong> Sun-dried algae, then added Isopropyl Alcohol and Gasoline to both flasks. Kept idle for ~6 hours. Extracted the solvent+oil mixture, spread on tray to evaporate, leaving bio-fuel residue. Added cow-dung to leftover flask content and sealed with balloon for secondary Biogas production.</p>
+        </div>
+      </div>
+      <div class="timeline-step fade-up">
+        <div class="timeline-node"><div class="node-dot teal"></div></div>
+        <div class="timeline-content">
+          <div class="step-meta">📅 28 Feb 2026</div>
+          <h4>Step 6 — Final Collection &amp; VNIT Lab Testing</h4>
+          <p>Carefully removed balloons containing Biogas. Measured bio-oil volume with a syringe. Sent all 6 sample sets to the VNIT Mining &amp; Chemical Engineering Department for independent testing and analysis to confirm calorific values and gas composition.</p>
+        </div>
+      </div>
+      <div class="timeline-step fade-up">
+        <div class="timeline-node"><div class="node-dot"></div></div>
+        <div class="timeline-content">
+          <div class="step-meta">📅 1 Mar 2026</div>
+          <h4>Step 7 — Remedial Measures &amp; Outreach</h4>
+          <p>Designed the Algal PBR Panel prototype to solve the light penetration problem. Conducted the 40-person community survey near Ambazari Lake. Organised the awareness programme. Launched this project website as an open-science resource.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- BUDGET TABLE -->
+    <div class="fade-up">
+      <p class="obs-section-title">💰 Project Budget Breakdown — ₹55 Total</p>
+      <table class="budget-table">
+        <thead><tr><th>Category</th><th>Materials Required</th><th>Budget</th></tr></thead>
+        <tbody>
+          <tr><td>Feedstock</td><td>100 g wet algae and 1,600 ml grey water</td><td>₹0.00</td></tr>
+          <tr><td>Catalysts</td><td>60 g fresh cow dung for methanogenic bacteria</td><td>₹0.00</td></tr>
+          <tr><td>Reagents</td><td>30–40 ml Isopropyl Alcohol, Gasoline</td><td>₹35.00</td></tr>
+          <tr><td>Container</td><td>Latex balloons, heavy rubber band</td><td>₹10.00</td></tr>
+          <tr><td>Other</td><td>Standard 1–14 pH indicator strips, cloth</td><td>₹10.00</td></tr>
+          <tr><td><strong>Total</strong></td><td></td><td><strong>₹55.00</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- METHOD IMAGES -->
+    <div class="method-images fade-up">
+      <figure class="method-img-wrap">
+        <img id="img-algae-collecting" src="" alt="Algae collection from Ambazari Lake" loading="lazy" />
+        <figcaption>Fig. 1 — Field collection at Ambazari Lake (13 Feb 2026)</figcaption>
+      </figure>
+      <figure class="method-img-wrap">
+        <img id="img-algae-harvesting" src="" alt="Filtration and harvesting of algal biomass" loading="lazy" />
+        <figcaption>Fig. 2 — Muslin cloth filtration and harvesting</figcaption>
+      </figure>
+      <figure class="method-img-wrap">
+        <img id="img-final-after-harvesting" src="" alt="Sun-dried algal biomass" loading="lazy" />
+        <figcaption>Fig. 3 — Sun-dried biomass ready for extraction</figcaption>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<!-- OBSERVATIONS -->
+<section id="observations">
+  <div class="container">
+    <div class="fade-up">
+      <div class="section-label">Data &amp; Findings</div>
+      <h2 class="section-title">Observations &amp; <span>Results</span></h2>
+      <div class="glow-divider"></div>
+    </div>
+
+    <div class="findings-grid fade-up">
+      <div class="finding-card">
+        <div class="finding-value">+350%</div>
+        <div class="finding-label">Beaker 1 Mass Growth</div>
+        <div class="finding-desc">50 g → 225 g in 10 days. Exponential growth by Day 4 with deep-green opaque colour and pH rise to 8.1.</div>
+      </div>
+      <div class="finding-card">
+        <div class="finding-value">34.2%</div>
+        <div class="finding-label">Peak Lipid Yield (Sub-Beaker 2.3)</div>
+        <div class="finding-desc">Nitrogen-stressed algae + dual solvent extraction — highest lipid concentration in the entire experiment.</div>
+      </div>
+      <div class="finding-card">
+        <div class="finding-value">39.1 MJ/kg</div>
+        <div class="finding-label">Bio-oil Calorific Value</div>
+        <div class="finding-desc">VNIT validated. Closely rivals commercial petro-diesel at ~45 MJ/kg.</div>
+      </div>
+      <div class="finding-card">
+        <div class="finding-value">810 ml</div>
+        <div class="finding-label">Best Biogas Yield (Sub-Beaker 1.1)</div>
+        <div class="finding-desc">62% Methane, 36% CO₂, calorific value 23.1 MJ/kg from nutrient-rich slurry.</div>
+      </div>
+    </div>
+
+    <p class="obs-section-title fade-up">🔍 Qualitative Observations</p>
+    <div class="two-col fade-up" style="gap:1.4rem;">
+      <div class="glassy-card">
+        <h3 style="font-size:1rem;margin-bottom:.7rem;"><span class="card-icon cyan">🌱</span>Phase 1 — Cultivation</h3>
+        <p style="font-size:.9rem;margin-bottom:.6rem;"><strong style="color:var(--cyan)">Beaker 1 (Nutrient Rich):</strong> Exponential growth by Day 4, turning to opaque deep-green with a strong manure scent. pH rose from 7.5 to 8.1, confirming high photosynthesis and CO₂ consumption.</p>
+        <p style="font-size:.9rem;"><strong style="color:var(--green)">Beaker 2 (Nitrogen Stressed):</strong> Biomass replication was stunted; water remained translucent. By Day 8, colour shifted to pale-yellowish green — algae shifted to survival mode and high lipid accumulation. pH remained stable (~7.3).</p>
+      </div>
+      <div class="glassy-card">
+        <h3 style="font-size:1rem;margin-bottom:.7rem;"><span class="card-icon green">⚗️</span>Phase 2 — Processing &amp; Extraction</h3>
+        <p style="font-size:.9rem;margin-bottom:.6rem;"><strong style="color:var(--cyan)">Anaerobic Digestion (1.1 &amp; 2.1):</strong> By Day 12, balloon started upright. By Day 15, Balloon 1.1 was tightly inflated and 2.1 moderately. A sulfurous odour confirmed active methanogenic decomposition.</p>
+        <p style="font-size:.9rem;margin-bottom:.6rem;"><strong style="color:var(--green)">Mechanical Press (1.2 &amp; 2.2):</strong> Sun-dried algae formed an odourless powder. Manual processing yielded approximately zero liquid — cell walls were too robust to break.</p>
+        <p style="font-size:.9rem;"><strong style="color:var(--teal)">Chemical Extraction (1.3 &amp; 2.3):</strong> Isopropyl Alcohol broke down cell walls and Gasoline (non-polar) isolated lipids. A distinct phase separation occurred — dark green-brown lipid layer migrated to the uppermost layer.</p>
+      </div>
+    </div>
+
+    <p class="obs-section-title fade-up">📊 Cultivation Biomass Yield</p>
+    <div class="obs-table-wrap fade-up">
+      <table class="data-table">
+        <thead><tr><th>Setup</th><th>Initial Wet Wt.</th><th>Final Wet Wt.</th><th>pH Day 1</th><th>pH Day 10</th><th>Total % Mass Growth</th></tr></thead>
+        <tbody>
+          <tr><td>Beaker 1 (Nutrient Rich)</td><td>50 g</td><td class="highlight">225 g</td><td>~7.5</td><td>8.1</td><td class="highlight">+350%</td></tr>
+          <tr><td>Beaker 2 (Nitrogen Starved)</td><td>50 g</td><td class="dim">85 g</td><td>~7.3</td><td>~7.3</td><td class="dim">+70%</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="obs-section-title fade-up">🔥 Biogas Generated — VNIT Lab Results (Day 15)</p>
+    <div class="obs-table-wrap fade-up">
+      <table class="data-table">
+        <thead><tr><th>Sub-Beaker</th><th>Source Material</th><th>Gas Volume</th><th>Methane CH₄</th><th>CO₂</th><th>Calorific Value</th></tr></thead>
+        <tbody>
+          <tr><td>1.1</td><td>Nutrient Rich slurry</td><td class="highlight">810 ml</td><td class="highlight">62%</td><td>36%</td><td class="highlight">23.1 MJ/kg</td></tr>
+          <tr><td>2.1</td><td>Stressed slurry</td><td>340 ml</td><td>48%</td><td>49%</td><td>17.4 MJ/kg</td></tr>
+          <tr><td>1.3 (Post-Solvent Residue)</td><td>Nutrient Rich residue</td><td>390 ml</td><td>54%</td><td>40%</td><td>19.5 MJ/kg</td></tr>
+          <tr><td>2.3 (Post-Solvent Residue)</td><td>Stressed residue</td><td class="dim">160 ml</td><td class="dim">42%</td><td>54%</td><td class="dim">15.2 MJ/kg</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <p class="obs-section-title fade-up">🧪 Lipid Extraction Efficiency — VNIT Lab Results</p>
+    <div class="obs-table-wrap fade-up">
+      <table class="data-table">
+        <thead><tr><th>Sub-Beaker</th><th>Extraction Method</th><th>Biomass Input</th><th>Oil Yield Volume</th><th>Lipid Yield %</th><th>Calorific Value</th></tr></thead>
+        <tbody>
+          <tr><td>1.2</td><td>Mechanical Press</td><td>~7.5 g</td><td class="dim">0.3 ml</td><td class="dim">3.3%</td><td>36.5 MJ/kg</td></tr>
+          <tr><td>2.2</td><td>Mechanical Press</td><td>~2.8 g</td><td class="dim">0.0 ml</td><td class="dim">0.0%</td><td>N/A</td></tr>
+          <tr><td>1.3</td><td>Isopropyl Alcohol + Gasoline</td><td>~7.5 g</td><td>1.6 ml</td><td class="highlight">21.3%</td><td>38.8 MJ/kg</td></tr>
+          <tr><td>2.3</td><td>Isopropyl Alcohol + Gasoline</td><td>~2.8 g</td><td>1.0 ml</td><td class="highlight">34.2%</td><td class="highlight">39.1 MJ/kg</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- OBSERVATION IMAGES -->
+    <div class="obs-images fade-up">
+      <div class="obs-img-card">
+        <div class="img-wrap"><img id="img-matrix-division" src="" alt="Microalgae cell matrix division" loading="lazy" /></div>
+        <div class="img-info">
+          <h4>Cell Matrix Division</h4>
+          <p>Microscopic view of nitrogen-stressed microalgal cell division showing lipid body accumulation — proving the metabolic shift hypothesis.</p>
+        </div>
+      </div>
+      <div class="obs-img-card">
+        <div class="img-wrap"><img id="img-anaerobic-digestion" src="" alt="Balloon inflation from anaerobic digestion" loading="lazy" /></div>
+        <div class="img-info">
+          <h4>Anaerobic Digestion — Balloon Inflation</h4>
+          <p>Latex balloons inflating as methanogenic bacteria decompose the algal slurry — visual confirmation of biogas production by Day 15.</p>
+        </div>
+      </div>
+      <div class="obs-img-card">
+        <div class="img-wrap"><img id="img-mechanical-pressing" src="" alt="Rolling pin mechanical pressing" loading="lazy" /></div>
+        <div class="img-info">
+          <h4>Mechanical Pressing — Failed Method</h4>
+          <p>Rolling-pin press applied to sun-dried algal powder — yielded near-zero oil because kinetic force cannot rupture robust microalgal cell walls.</p>
+        </div>
+      </div>
+      <div class="obs-img-card">
+        <div class="img-wrap"><img id="img-chemical-solvent-extraction" src="" alt="Dual solvent extraction phase separation" loading="lazy" /></div>
+        <div class="img-info">
+          <h4>Dual Solvent Extraction</h4>
+          <p>Isopropyl Alcohol + Gasoline replicating the Bligh &amp; Dyer method — dark-green-brown lipid layer visibly separated to the top, confirming extraction success.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ANALYSIS -->
+<section id="analysis">
+  <div class="container">
+    <div class="fade-up">
+      <div class="section-label">Interpretation</div>
+      <h2 class="section-title">Analysis &amp; <span>Deductions</span></h2>
+      <div class="glow-divider"></div>
+    </div>
+    <div class="analysis-grid">
+      <div class="analysis-card fade-up">
+        <h4>⚖️ Growth vs. Yield Paradox</h4>
+        <p>Beaker 1 (Nutrient Rich) achieved a massive 350% mass increase whereas Nitrogen-Stressed Beaker 2 only grew by 70%. Yet solvent extraction of the stressed algae yielded 34.2% lipids — compared to just 21.3% from well-fed algae. Beaker 1 yielded 2.6× more raw starting material.</p>
+        <div class="deduction-box">Data proves the core hypothesis: Nitrogen starvation causes a metabolic shift, hyper-inflating oil-production. However, Beaker 2's low raw biomass (85 g) limited total oil volume, proving high lipid % is ineffective without sufficient raw mass. Commercial viability requires a two-stage system.</div>
+      </div>
+      <div class="analysis-card fade-up">
+        <h4>🧫 Extraction Method Efficiency</h4>
+        <p>Mechanical Press yielded a maximum 3.3% efficiency (1.2) with the stressed batch yielding 0.0% (2.2). Chemical Solvent yielded 21.3% and 34.2% respectively — over 10× superior.</p>
+        <div class="deduction-box">Manual kinetic force is insufficient to break down micro-algal cell walls. The dual-solvent approach — Isopropyl Alcohol degrading the cellular matrix, non-polar Gasoline isolating targeted lipids — is proven essential, confirmed by visible phase separation.</div>
+      </div>
+      <div class="analysis-card fade-up">
+        <h4>⚡ Energy Quality — Bio-oil</h4>
+        <p>The highest calorific value was 39.1 MJ/kg (Beaker 2.3), closely rivalling commercial petro-diesel (~45 MJ/kg), proving algal oil as a highly viable, energy-dense alternative. In the future, GM Algae and industrial varieties will overcome the diesel gap entirely.</p>
+        <div class="deduction-box">Algal bio-oil at 39.1 MJ/kg is already commercially viable. With two-stage cultivation and GM algae, this figure will exceed diesel within the next decade of research.</div>
+      </div>
+      <div class="analysis-card fade-up">
+        <h4>🔥 Energy Quality — Biogas</h4>
+        <p>The primary slurry (1.1) yielded the best gas at 23.1 MJ/kg with 62% Methane. In contrast, the stressed residue gas (2.3) yielded only 15.2 MJ/kg due to high CO₂ content (54%), reducing combustion efficiency.</p>
+        <div class="deduction-box">Raw biogas requires chemical scrubbing before commercial use. However, this excess CO₂ can be captured and recycled back to grow the next algal generation — creating a genuinely carbon-negative closed-loop system.</div>
+      </div>
+      <div class="analysis-card fade-up">
+        <h4>♻️ Zero-Waste Loop Confirmed</h4>
+        <p>The most important qualitative success was balloon inflation in Flasks 1.3 &amp; 2.3 — proving that even after sun-drying, powdering, and harsh chemical solvent extraction, the residual cellular waste still sustained methanogenic bacteria.</p>
+        <div class="deduction-box">Zero-waste energy extraction is biologically possible and efficient. The entire biomass cascade — growth → biodiesel → biogas — leaves zero organic waste.</div>
+      </div>
+      <div class="analysis-card fade-up">
+        <h4>🌾 Agricultural Application</h4>
+        <p>Instead of only converting post-extraction residue into biogas, the biomass can serve as an exceptional Biofertilizer (rich in nitrogen &amp; phosphorus) and liquid Bio-stimulant containing plant growth hormones like Auxin and Cytokinins.</p>
+        <div class="deduction-box">Applying this to local crops creates a perfect circular economy that simultaneously fuels vehicles, boosts crop yield safely, and reduces chemical fertiliser dependency — a triple benefit from a single algal batch.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SURVEY -->
+<section id="survey">
+  <div class="container">
+    <div class="fade-up">
+      <div class="section-label">Public Awareness</div>
+      <h2 class="section-title">Community <span>Survey Results</span></h2>
+      <div class="glow-divider"></div>
+    </div>
+    <p class="fade-up" style="max-width:700px;font-size:1rem;line-height:1.85;margin-bottom:2rem;">A 40-person survey was conducted with local fishermen, people living near Ambazari, school friends, and teachers to gauge public awareness and willingness to adopt algal biofuels as an alternative energy source.</p>
+    <div class="survey-grid">
+      <div class="survey-card fade-up">
+        <p class="q">Were you aware that algae in ponds can be converted to biofuel?</p>
+        <div class="bar-row">
+          <div class="bar-item"><label>Yes — 14 people<span>35%</span></label><div class="bar-track"><div class="bar-fill yes" data-width="35%"></div></div></div>
+          <div class="bar-item"><label>No — 26 people<span>65%</span></label><div class="bar-track"><div class="bar-fill no" data-width="65%"></div></div></div>
+        </div>
+      </div>
+      <div class="survey-card fade-up">
+        <p class="q">If a green fuel was available at the same price, would you prefer to blend?</p>
+        <div class="bar-row">
+          <div class="bar-item"><label>Yes — 29 people<span>72.5%</span></label><div class="bar-track"><div class="bar-fill yes" data-width="72.5%"></div></div></div>
+          <div class="bar-item"><label>No — 11 people<span>27.5%</span></label><div class="bar-track"><div class="bar-fill no" data-width="27.5%"></div></div></div>
+        </div>
+      </div>
+      <div class="survey-card fade-up">
+        <p class="q">Are you aware of the Methane risks and environmental hazards of untreated cow-dung?</p>
+        <div class="bar-row">
+          <div class="bar-item"><label>Yes — 36 people<span>90%</span></label><div class="bar-track"><div class="bar-fill yes" data-width="90%"></div></div></div>
+          <div class="bar-item"><label>No — 4 people<span>10%</span></label><div class="bar-track"><div class="bar-fill no" data-width="10%"></div></div></div>
+        </div>
+      </div>
+      <div class="survey-card fade-up">
+        <p class="q">Would you replace standard LPG with safe, odourless biogas made from organic waste (Algae)?</p>
+        <div class="bar-row">
+          <div class="bar-item"><label>Yes — 28 people<span>70%</span></label><div class="bar-track"><div class="bar-fill yes" data-width="70%"></div></div></div>
+          <div class="bar-item"><label>No — 12 people<span>30%</span></label><div class="bar-track"><div class="bar-fill no" data-width="30%"></div></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="survey-deduction fade-up">
+      <p>📌 <strong style="color:var(--teal)">Survey Deduction:</strong> The survey indicates a significant lack of preliminary awareness regarding third-generation biofuels (65% unaware). However, it also demonstrates an overwhelming public willingness (72.5%+) to adopt these green alternatives once the basic concept and environmental benefits are explained — proving that education, not technology, is the primary barrier to adoption of algal biofuels in local communities.</p>
+    </div>
+  </div>
+</section>
+
+<!-- BEYOND THE LAB -->
+<section id="impact">
+  <div class="container">
+    <div class="fade-up">
+      <div class="section-label">Community &amp; Environment</div>
+      <h2 class="section-title">Beyond the Lab — <span>Community Impact</span></h2>
+      <div class="glow-divider"></div>
+    </div>
+    <p class="fade-up" style="max-width:700px;font-size:1.02rem;line-height:1.9;margin-bottom:2rem;">The "Pond to Pump" initiative is a community-driven effort to transform local resources into renewable energy. Scaling this model requires both hardware innovation and public engagement to shift how we perceive bio-innovation.</p>
+    <div class="impact-grid">
+      <div class="impact-card c1 fade-up">
+        <span class="impact-emoji">🌐</span>
+        <h3>Project Website &amp; Digital Outreach</h3>
+        <p>This website was created to serve as an open-source journal for the project. It aims to push public learning, awareness, and solutions to crises — with complete documentation of the experiment, every data point, and all findings freely accessible to students, educators, and policymakers across India.</p>
+      </div>
+      <div class="impact-card c2 fade-up">
+        <span class="impact-emoji">📢</span>
+        <h3>Ambazari Lake Awareness Programme</h3>
+        <p>An awareness programme and survey was launched near Ambazari Lake to understand public perception, educate locals on how pond scum becomes clean-burning biodiesel, and identify seasonal algal bloom patterns. After visiting the website and joining the programme, locals' initial doubt turned into 72.5% active support for bio-oil adoption.</p>
+      </div>
+      <div class="impact-card c3 fade-up">
+        <span class="impact-emoji">🔬</span>
+        <h3>Algal Panel PBR Prototype</h3>
+        <p>To overcome limited sunlight penetration in deep containers, an Algal Panel PBR prototype was designed — a flat thin container covered with glass to maximise surface area, with an aerator for uniform mixing. It acts exactly like a solar power panel, exposing nearly 100% of cells to direct sunlight and dramatically accelerating photosynthesis.</p>
+      </div>
+      <div class="impact-card c1 fade-up">
+        <span class="impact-emoji">🐟</span>
+        <h3>Restoring Aquatic Life at Ambazari</h3>
+        <p>By actively clearing stagnant water and harvesting algal biomass from Ambazari Lake, this project restores water health — stopping mass fish loss as eutrophication is reduced, allowing sunlight to penetrate to the bottom, and restoring dissolved oxygen levels for the full aquatic food chain.</p>
+      </div>
+      <div class="impact-card c2 fade-up">
+        <span class="impact-emoji">🌾</span>
+        <h3>Circular Bio-economy Value</h3>
+        <p>Beyond direct fuel, algae offers multi-industry value. Leftover waste acts as a rich farm bio-stimulant and biofertilizer packed with natural plant hormones like Auxin and Cytokinins. Special strains even produce green Bio-Cement for construction and clean PHB bioplastics to replace toxic single-use plastics.</p>
+      </div>
+      <div class="impact-card c3 fade-up">
+        <span class="impact-emoji">🏭</span>
+        <h3>Industrial Scale Vision</h3>
+        <p>Future plans will test the Algal Flat Panel PBR at scale. Large factories can use Thermochemical Conversions — Pyrolysis and Gasification — to skip liquid chemicals and unlock algae as a global energy crop, with all CO₂ from combustion cycled back to grow the next generation of algae in a fully closed system.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONCLUSION -->
+<section id="conclusion">
+  <div class="container">
+    <div class="fade-up">
+      <div class="section-label">Summary</div>
+      <h2 class="section-title">Conclusion &amp; <span>Future Scope</span></h2>
+      <div class="glow-divider"></div>
+    </div>
+    <p class="fade-up" style="max-width:760px;font-size:1.02rem;line-height:1.9;margin-bottom:2.5rem;">This project successfully demonstrated a complete, zero-waste biofuel pipeline using nitrogen-stressed microalgae cultivated in eutrophic pond water at a total cost of just ₹55. VNIT lab validation confirmed the viability of algal bio-oil (39.1 MJ/kg) as a genuine petroleum alternative, while closed-loop biogas production from extraction residue proved zero-waste energy extraction is biologically achievable and efficient.</p>
+    <div class="conclusion-grid">
+      <div class="conclusion-card fade-up">
+        <div class="c-icon">🫠</div>
+        <h4>Nitrogen Stress Effect Confirmed</h4>
+        <p>Starving algae forces a shift to survival mode, making more lipids and oil. The stressed batch gave a 34.2% oil yield compared to 21.3% in nutrient-rich — a 61% improvement confirmed by VNIT testing.</p>
+      </div>
+      <div class="conclusion-card fade-up">
+        <div class="c-icon">⚖️</div>
+        <h4>Inverse Biomass Relation</h4>
+        <p>There is an inverse relation between mass growth and oil production. Starving algae gives more oil but stops cell multiplication (70% vs. 350% mass growth). A high lipid % means nothing without sufficient total biomass to harvest in the first place.</p>
+      </div>
+      <div class="conclusion-card fade-up">
+        <div class="c-icon">🧪</div>
+        <h4>Chemical Extraction is Essential</h4>
+        <p>Manual mechanical processing is entirely ineffective at small scale (0–3.3%). The Bligh &amp; Dyer inspired dual solvent extraction (Isopropyl Alcohol + Gasoline) is necessary to break cell walls and isolate lipids.</p>
+      </div>
+      <div class="conclusion-card fade-up">
+        <div class="c-icon">♻️</div>
+        <h4>Zero-Waste Loop Proven</h4>
+        <p>Making biofuel doesn't have to create dead waste. Even after solvent extraction, the leftover algae paste feeds methanogenic bacteria and produces usable biogas — closing the energy loop completely.</p>
+      </div>
+      <div class="conclusion-card fade-up">
+        <div class="c-icon">🌊</div>
+        <h4>Ecological Dual-Benefit</h4>
+        <p>Harvesting algae from Ambazari reduces eutrophication, restores dissolved oxygen, increases fish viability, and allows sunlight to reach the lake bottom — solving both an energy crisis and an ecological crisis with the same action.</p>
+      </div>
+      <div class="conclusion-card fade-up">
+        <div class="c-icon">💰</div>
+        <h4>Proven Economic Feasibility</h4>
+        <p>At ₹55 for a full VNIT-validated experimental cycle, this model proves that algal bio-refineries can be initiated at community scale with minimal capital, making it genuinely accessible for resource-limited settings.</p>
+      </div>
+    </div>
+
+    <div class="fade-up" style="margin-top:3rem;">
+      <h3 style="font-family:var(--font-head);font-size:1.15rem;color:var(--cyan);margin-bottom:1.4rem;">🚀 Suggestions for Future Scope</h3>
+      <div class="scope-grid">
+        <div class="scope-card"><h5>Two-Stage Cultivation System</h5><p>First grow in nutrient-rich environment to multiply raw mass, then transfer to nitrogen-starved environment to trigger lipid accumulation — directly solving the inverse biomass relation.</p></div>
+        <div class="scope-card"><h5>Algal Panel PBR Deployment</h5><p>The flat panel prototype maximises the surface-area-to-volume ratio, exposing nearly 100% of cells to direct sunlight and reducing cultivation time significantly.</p></div>
+        <div class="scope-card"><h5>Industrial Solvent Integration</h5><p>Replace Isopropyl Alcohol + Gasoline with industrial Hexanol and rotary evaporation for continuous solvent recovery — dropping operational cost to near zero.</p></div>
+        <div class="scope-card"><h5>Advanced Thermochemical Conversions</h5><p>Explore Pyrolysis (thermal decomposition without oxygen) for high-grade bio-char and bio-oil, or Gasification to convert mass directly to syngas — bypassing liquid solvent entirely.</p></div>
+        <div class="scope-card"><h5>Genetically Engineered (GM) Algae</h5><p>Transgenic algal strains can continuously synthesise high lipid yields without nitrogen starvation — eliminating the inverse biomass-lipid relation entirely.</p></div>
+        <div class="scope-card"><h5>CO₂ Closed-Loop Recycling</h5><p>Capture CO₂ produced in combustion and feed it back to grow the next algal generation — making the entire system carbon-negative at industrial scale.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REMEDIAL MEASURES -->
+<section id="remedial">
+  <div class="container">
+    <div class="fade-up">
+      <div class="section-label">Problem → Solution</div>
+      <h2 class="section-title">Remedial <span>Measures</span></h2>
+      <div class="glow-divider"></div>
+    </div>
+    <div class="remedial-grid">
+      <div class="remedial-card fade-up">
+        <div class="problem-tag">Problem 01</div>
+        <h4>Failure of Mechanical Extraction</h4>
+        <div class="remedial-row"><div class="rkey">Issue</div><p>Manual mechanical press failed — kinetic force could not rupture the robust micro-algal cell wall, yielding near-zero oil extraction.</p></div>
+        <div class="remedial-row"><div class="rkey">Remedy</div><p>Shifted to a chemical-based solution using an accessible dual solvent mixture of Isopropyl Alcohol and Gasoline.</p></div>
+        <div class="remedial-row"><div class="rkey">Effect</div><p>Isopropyl Alcohol degraded the cellular matrix, allowing non-polar Gasoline to isolate lipids. Extraction efficiency jumped from ~0% to 21.3–34.2%, confirmed by visible phase separation.</p></div>
+      </div>
+      <div class="remedial-card fade-up">
+        <div class="problem-tag">Problem 02</div>
+        <h4>Inverse Biomass–Lipid Relation</h4>
+        <div class="remedial-row"><div class="rkey">Issue</div><p>Nitrogen stress spiked internal oil percentage but severely stunted physical growth rate, limiting raw extraction material and total oil volume.</p></div>
+        <div class="remedial-row"><div class="rkey">Remedy</div><p>Restructure the experimental design to a Two-Stage Cultivation: first rapid biomass growth, then nitrogen stress phase.</p></div>
+        <div class="remedial-row"><div class="rkey">Effect</div><p>Ensures efficiency by using organic nutrients for mass-growth and then shifting to nitrogen stress for lipid accumulation across the large biomass simultaneously.</p></div>
+      </div>
+      <div class="remedial-card fade-up">
+        <div class="problem-tag">Problem 03</div>
+        <h4>Inefficient Light Penetration in Deep Beakers</h4>
+        <div class="remedial-row"><div class="rkey">Issue</div><p>In deep beakers, thickened biomass created a dark centre, stopping photosynthesis for cells lacking direct sunlight.</p></div>
+        <div class="remedial-row"><div class="rkey">Remedy</div><p>Designed and constructed the Algal Panel PBR prototype — a flat thin glass-covered container acting like a solar panel.</p></div>
+        <div class="remedial-row"><div class="rkey">Effect</div><p>Maximised the surface-area-to-volume ratio, exposing nearly 100% of cells to direct, uniform sunlight, dramatically accelerating photosynthesis.</p></div>
+      </div>
+      <div class="remedial-card fade-up">
+        <div class="problem-tag">Problem 04</div>
+        <h4>Chemical Scaling Cost</h4>
+        <div class="remedial-row"><div class="rkey">Issue</div><p>Relying on pure lab-grade chemicals makes large-scale bio-oil extraction economically unfeasible at industrial volume.</p></div>
+        <div class="remedial-row"><div class="rkey">Remedy</div><p>At industrial scale, shift to pure Hexanol paired with rotary evaporation systems for continuous solvent recovery.</p></div>
+        <div class="remedial-row"><div class="rkey">Effect</div><p>Rotary evaporation allows solvents to be captured and continuously recycled, dropping operational cost to near zero while conserving the environment.</p></div>
+      </div>
+      <div class="remedial-card fade-up">
+        <div class="problem-tag">Problem 05</div>
+        <h4>Biological Limitations &amp; Multi-Product Potential</h4>
+        <div class="remedial-row"><div class="rkey">Issue</div><p>Wild algae requires nitrogen stress to produce oil, which shunts cell multiplication and limits the diversity of potential materials and products.</p></div>
+        <div class="remedial-row"><div class="rkey">Remedy</div><p>Use Genetically Modified (GM) Algae in future to bypass metabolic restrictions and continuously overproduce specific biological polymers.</p></div>
+        <div class="remedial-row"><div class="rkey">Effect</div><p>Engineering metabolic pathways enables high lipid yields without the Inverse Biomass relation. This optimised biomass converts to bio-plastics, bio-cement, and omega-3, creating a true high-value integrated bio-refinery.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer id="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <h4>🙏 Acknowledgements</h4>
+        <p>I am deeply grateful to <strong style="color:var(--text-bright)">GBST-MSTA</strong> for providing the platform to undertake this research through the Dr. Homi Bhabha Balvaidyanik Competition. Sincere thanks to my Principal and <strong style="color:var(--text-bright)">Bhavans B.P. Vidya Mandir Ashti</strong> for the continuous support and guidance throughout this action-research project. I am also thankful to my Science Teacher and Project Guide for her mentorship and ensuring scientific vigour during the 17-day experimental cycle.</p>
+        <br/>
+        <p>A special note of gratitude goes to the <strong style="color:var(--text-bright)">Mining and Chemical Engineering Department at VNIT Nagpur</strong> for testing my biogas and bio-oil samples and providing vital quantitative validation. I also thank the local residents and peers who participated in the green energy awareness survey and awareness programme near Ambazari Lake.</p>
+        <br/>
+        <p>Finally, I thank my parents and family for their logistic support — from sourcing micro-algae at Ambazari Lake to providing space for the incubation and extraction process. Without their support, I could not have reached this level and my project could not become successful.</p>
+        <br/>
+        <p style="color:var(--text-muted);font-size:.83rem;">
+          <span style="color:var(--cyan)">School:</span> Bhavans B.P. Vidya Mandir Ashti<br/>
+          <span style="color:var(--cyan)">Competition:</span> Dr. Homi Bhabha Balvaidyanik · GBST-MSTA<br/>
+          <span style="color:var(--cyan)">Lab Validation:</span> Mining &amp; Chemical Engg. Dept., VNIT Nagpur
+        </p>
+      </div>
+      <div>
+        <h4>📚 References</h4>
+        <ol>
+          <li>Bligh, E.G. &amp; Dyer, W.J. — A Rapid Method of Total Lipid Extraction and Purification. <em>Canadian Journal of Biochemistry and Physiology</em>, Vol. 37, No. 8, pp. 911–917. Ottawa, 1959.</li>
+          <li>Ministry of New and Renewable Energy (MNRE) — National Policy on Biofuels. Government of India. New Delhi, 2018.</li>
+          <li>TERI — Action Research on Micro Algal Biodiesel Scalability. <em>TERI Press</em>, Vol. 22, pp. 50–65. New Delhi, 2016.</li>
+          <li>Martin, D. — Circular Economy Model for Microalgae Production. MSC Synthetic Biology Research, Vol. 11. University of Edinburgh, 2016.</li>
+          <li>Chisti, Y. — Biodiesel from Microalgae. <em>Biotechnology Advances</em>, Vol. 25, Issue 3, pp. 294–314. Elsevier, London, 2007.</li>
+          <li>Incover Project — Resource Recovery from Municipal Wastewater using High Rate Algae Ponds. <em>EU Horizon 2020</em>, Case Study 2. Almeria, 2025.</li>
+          <li>Sharma, R. &amp; Banerjee, A. — Microalgae Cultivation in Indian Climatic Conditions. <em>Indian Journal of Biotechnology</em>, Vol. 12, Issue 4. IIT Kharagpur Press, 2018.</li>
+          <li>Agrawal, P. &amp; Choudhary, M. — Optimization of Algal Photobioreactors in Tropical Climates. <em>Journal of Indian Institute of Sciences</em>, Vol. 11, No. 2. IISC Press, Bengaluru, 2020.</li>
+          <li>Venkata Mohan, S. &amp; Prathima Devi, M. — Algal Biorefinery Model for India. <em>Bioresource Technology</em>, Vol. 42, No. 2. CSIR-IICT, Hyderabad, 2014.</li>
+          <li>Sharma, K.K. &amp; Schenk, P.M. — High Lipid Induction in Microalgae for Biodiesel Production. <em>Energies Journal</em>, Vol. 5, Article 84. BioMed Central, Basel, 2012.</li>
+          <li>Goswami, R. &amp; Kalita, P. — Biogas Generation from Algal Residue in Rural India. <em>Biomass Conversion and Biorefinery</em>, Vol. 18, No. 3. Springer, Guwahati, 2019.</li>
+          <li>Ward, A.J. &amp; Hobbs, P.J. — Optimisation of the Anaerobic Digestion of Agricultural Resources. <em>Bioresource Technology</em>, Vol. 99, Issue 17. Elsevier, Amsterdam, 2008.</li>
+          <li>Bhattacharya, A. — Nitrogen Stress Induction for Lipid Hyper-Accumulation in Indian Strains. <em>Bioresource Technology</em>, Vol. 104. Elsevier, Kolkata, 2015.</li>
+        </ol>
+      </div>
+    </div>
+    <div class="footer-copy">
+      <div>&copy; 2025 <span class="glow-text">Ayushman Choudhary</span> · From Pond to Pump</div>
+      <div style="color:var(--text-muted);font-size:.75rem;">All images and data are the original work of the author · VNIT Nagpur Lab Validated · Built for GitHub Pages</div>
+    </div>
+  </div>
+</footer>
+
+<!-- JAVASCRIPT -->
+<script>
+function toggleMenu(){document.getElementById('mobileMenu').classList.toggle('open');}
+function closeMenu(){document.getElementById('mobileMenu').classList.remove('open');}
+
+/* Scroll-in */
+const observer=new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});},{threshold:0.10});
+document.querySelectorAll('.fade-up').forEach(el=>observer.observe(el));
+
+/* Hero particle canvas */
+(function(){
+  const canvas=document.getElementById('hero-canvas');
+  const ctx=canvas.getContext('2d');
+  const COLORS=['rgba(0,229,255,','rgba(57,255,138,','rgba(0,255,213,'];
+  function resize(){canvas.width=canvas.offsetWidth;canvas.height=canvas.offsetHeight;}
+  resize();window.addEventListener('resize',resize);
+  class Particle{
+    constructor(){this.reset(true);}
+    reset(init){this.x=Math.random()*canvas.width;this.y=init?Math.random()*canvas.height:canvas.height+10;this.r=Math.random()*2.5+0.5;this.vx=(Math.random()-0.5)*0.4;this.vy=-(Math.random()*0.5+0.2);this.alpha=Math.random()*0.5+0.1;this.color=COLORS[Math.floor(Math.random()*COLORS.length)];this.twinkle=Math.random()*Math.PI*2;this.twinkleSpeed=0.02+Math.random()*0.03;}
+    draw(){this.twinkle+=this.twinkleSpeed;const a=this.alpha*(0.7+0.3*Math.sin(this.twinkle));ctx.beginPath();ctx.arc(this.x,this.y,this.r,0,Math.PI*2);ctx.fillStyle=this.color+a+')';ctx.fill();ctx.beginPath();ctx.arc(this.x,this.y,this.r*3,0,Math.PI*2);ctx.fillStyle=this.color+(a*0.15)+')';ctx.fill();}
+    update(){this.x+=this.vx;this.y+=this.vy;if(this.y<-10)this.reset(false);}
+  }
+  const particles=Array.from({length:90},()=>new Particle());
+  function loop(){ctx.clearRect(0,0,canvas.width,canvas.height);particles.forEach(p=>{p.update();p.draw();});requestAnimationFrame(loop);}
+  loop();
+})();
+
+/* Active nav */
+const navLinks=document.querySelectorAll('.nav-links a');
+const sectionObserver=new IntersectionObserver((entries)=>{entries.forEach(e=>{if(e.isIntersecting){navLinks.forEach(a=>a.style.color='');const active=document.querySelector(`.nav-links a[href="#${e.target.id}"]`);if(active)active.style.color='var(--cyan)';}});},{threshold:0.35});
+document.querySelectorAll('section[id]').forEach(s=>sectionObserver.observe(s));
+
+/* Animate survey bars */
+const barObserver=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{
+    if(e.isIntersecting){
+      e.target.querySelectorAll('.bar-fill').forEach(bar=>{
+        const w=bar.getAttribute('data-width');
+        bar.style.width='0%';
+        setTimeout(()=>{bar.style.width=w;},200);
+      });
+    }
+  });
+},{threshold:0.3});
+document.querySelectorAll('.survey-card').forEach(c=>barObserver.observe(c));
+
+/* GitHub image loader */
+function loadImage(filename,elementId){
+  const el=document.getElementById(elementId);
+  if(!el)return;
+  el.src=`${GITHUB_RAW}/images/${filename}`;
+  el.onerror=()=>{el.style.opacity='0.15';el.alt=`[Image not found: images/${filename}]`;};
+}
+
+window.addEventListener('DOMContentLoaded',()=>{
+  loadImage('algae-collecting.jpg',           'img-algae-collecting');
+  loadImage('algae-harvesting.jpg',           'img-algae-harvesting');
+  loadImage('final-after-harvesting.jpg',     'img-final-after-harvesting');
+  loadImage('matrix-division.jpg',            'img-matrix-division');
+  loadImage('anaerobic-digestion.jpg',        'img-anaerobic-digestion');
+  loadImage('mechanical-pressing.jpg',        'img-mechanical-pressing');
+  loadImage('chemical-solvent-extraction.jpg','img-chemical-solvent-extraction');
+});
+</script>
+</body>
+</html>
